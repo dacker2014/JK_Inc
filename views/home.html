@@ -1,0 +1,365 @@
+<% include header.html %>
+
+
+<header>
+	
+	<% if (result!='') { %>  
+
+	<section class="hometab">
+		<nav class="tab-heading homeNav clear">
+			<ul>
+				<li class="xmsz tablight"><a>H5项目设置</a></li>
+				<li class="hygl"><a>会员管理</a></li>
+				<li class="gsxxgl"><a>公司信息管理</a></li>
+				<li><a href="/logout">退出(<%=username%>)</a></li>
+			</ul>
+		</nav>
+		
+		<!-- <p class="label label-info">登陆时间： <%=date%> </p> -->
+    
+    	<div class="tab-body">
+    		<ul>
+	    		<li class="xmsz block">
+	    			<!-- 项目设置 -->
+	    			<div class="container-fluid">
+						<div class="row-fluid">
+							<div class="span12 xmsz-form">
+								<form class="form-horizontal">
+									<div class="control-group">
+										 <label class="control-label" for="appname">该项目名称</label>
+										<div class="controls">
+											<input class="appname" name='appname' type="text" />
+										</div>
+									</div>
+									<div class="control-group">
+										 <label class="control-label" for="actname">首页标题</label>
+										<div class="controls">
+											<input type="text" class="actname" type="actname" />
+										</div>
+									</div>
+									<div class="control-group">
+										 <label class="control-label" for="actcontent">首页内容</label>
+										<div class="controls">
+											<textarea class="actcontent" name="actcontent" cols="30" rows="10"></textarea>
+											
+										</div>
+									</div>
+									<div class="control-group">
+										<div class="controls">
+											 <a class="btn appsubmit">更新</a>
+										</div>
+									</div>
+								</form>
+							</div>
+						</div>
+					</div>
+	    		</li>
+	    		<li class="hygl">
+	    			<div class="row-fluid">
+		    			<ul class="thumbnails">
+							<li class="span4">
+							<div class="thumbnail">
+								<img src="" alt="">
+								<p>项目1</p>
+								<p>删除</p>
+								<p>修改</p>
+
+							</div>
+							</li>
+							<li class="span4">
+						    <div class="thumbnail">
+								<img src="" alt="">
+								<p>项目2</p>
+								<p>删除</p>
+								<p>修改</p>
+						    </div>
+						  	</li>
+							<li class="span4">
+						    <div class="thumbnail">
+								<img src="images/add.gif" alt="">
+								<p><a href="/subject">增加</a></p>
+						    </div>
+						  	</li>
+						</ul>
+					</div>
+	    		</li>
+	    		<li class="gsxxgl" >
+	    			
+	    			<section class="container-fluid">
+						<div class="row-fluid tab">
+						  <div class="tab-gsxxgl">
+						    <nav class="tab-heading">
+						    	<ul>
+						    		<li class="jbxx tablight"><a >基本信息</a></li>
+						    		<li class="xzgs"><a >新增公司</a></li>
+						    		<!-- <li class="xggs"><a >修改公司</a></li> -->
+						    	</ul>
+						    </nav>
+						    <div class="tab-body body-gsxxgl span12">
+						    	<ul>
+						    		<li class="tab-inner jbxx inner-jbxx block">
+						    			<p data-info="load" class="">载入中……</p>
+						    		</li>
+						    		<li class="tab-inner xzgs inner-xzgs">
+
+<!-- 图片上传 -->
+
+<form method="post" action="upload" enctype="multipart/form-data">
+
+    <input type="file" name="files" multiple="multiple" />
+    <input type="submit" value="send" />
+
+</form>
+
+
+<!-- 图片 -->
+						    			<form class="form-comadd form-horizontal" action="companyadd" method="post" enctype="multipart/form-data" >
+											<div class="control-group">
+												 <label class="control-label" for="comname">公司名称</label>
+												<div class="controls">
+													<input class="comname" name='comname' type="text" />
+												</div>
+											</div>
+											<div class="control-group">
+												 <label class="control-label" for="content">公司简介</label>
+												<div class="controls">
+													<textarea class="content" name="comcontent" cols="60" rows="5"></textarea>
+												</div>
+											</div>
+											<div class="control-group">
+												 <label class="control-label" for="operate">运营情况</label>
+												<div class="controls">
+													<textarea class="operate" name="comoperate" cols="60" rows="5"></textarea>
+													
+												</div>
+											</div>
+											<div class="control-group">
+												 <label class="control-label" for="future">未来发展</label>
+												<div class="controls">
+													<textarea class="future" name="comfuture" cols="60" rows="5"></textarea>
+													
+												</div>
+											</div>
+											<div class="control-group">
+												 <label class="control-label" for="financing">融资需求</label>
+												<div class="controls">
+													<textarea class="financing" name="comfinancing" cols="60" rows="5"></textarea>
+													
+												</div>
+											</div>
+											<div class="control-group">
+												 <label class="control-label" for="comlogo">公司logo</label>
+												<div class="controls">
+													<!-- <input id="img1" class="comlogo" name="comlogo" type="file" > --> 
+													<input type="file" name="files" multiple="multiple"/>
+												</div>
+											</div>
+											<div class="control-group">
+												<div class="controls">
+													<input name="username" type="hidden" value="<%=username%>">
+
+													<a class="btn comsubmit">增加</a>
+													<!-- <button type="submit" class="btn user_submit">增加</button> -->
+												</div>
+											</div>
+										</form>
+						    		</li>
+						    		<!-- <li class="tab-inner xggs inner-xggs">
+						    			修改
+						    		</li> -->
+
+						    	</ul>
+						    </div>
+						  </div>
+
+						</div>
+				    </section>
+	    		</li>
+
+    		</ul>
+    	</div>
+    </section>
+
+	<% } else{%>
+    <section>
+	<div class="well">
+		<p>登录失败……</p>
+		<a class='btn btn-primary' href="/">重新登陆</a>
+	</div>
+    </section>
+    <%}%>
+</header>
+
+
+<footer>
+    <section>
+		<div class="tips"></div>
+    </section>
+</footer>
+
+<% include footer.html %>
+
+
+<script>
+window.onload=function(){
+
+	seajs.config({
+	base: '/javascripts',
+	alias: {
+		//'jquery': 'jquery/jquery/1.10.1/jquery',
+        "zepto":  "jquery/zepto/1.1.6/zepto",
+        "all": "share/all/1.0.0/all",
+        'verify':'share/verify/1.0.0/verify',
+	  }
+	})
+	
+    seajs.use(['zepto', 'all'], function($,A){
+
+    	var $ = Zepto;
+     	
+     	var actcontent = $('.actcontent'),
+     		actname = $('.actname'),
+     		appname = $('.appname'),
+     		appsubmit = $('.appsubmit'),
+     		gsxxgl = $('.gsxxgl'),
+     		inner_jbxx = $('.inner-jbxx'),
+     		comsubmit = $('.comsubmit'),
+     		comname = $('.comname'),
+     		content = $('.content'),
+     		operate = $('.operate'),
+     		future = $('.future'),
+     		comlogo = $('.comlogo'),
+     		financing = $('.financing');
+
+     	$.fn.hiTab('.hometab');
+     	$.fn.hiTab('.tab-gsxxgl');
+     	//H5项目设置 读取
+     	A.ajax('subject', {username:'<%=username%>'}, '.xmsz-form', function(d){
+     		var d = d.data;
+     		A.alertHtml('.xmsz-form', 'success', '项目信息获取成功', '');
+     		actcontent.val(d.activenow.content);
+     		actname.val(d.activenow.name);
+     		appname.val(d.appset.name);
+
+     	});
+     	//H5项目设置 更新
+     	appsubmit.on('click', function(e) {
+     		e.preventDefault();
+     		
+     		A.ajax('subjectsave', {
+     			username:'<%=username%>',
+     			appname:appname.val(),
+     			actname:actname.val(),
+     			actcontent : actcontent.val(),
+     		}, '.xmsz-form',function(d){
+     			console.log(d);
+     			A.alertHtml('.xmsz-form', 'success', '更新 成功！', '');
+     		})
+     	});
+     	//基本信息读取 刷新 基本信息
+     	$('.hometab').on('click', '.gsxxgl,.reload_jbxx', function() {
+     		
+     		//区分点击来源
+     		if (inner_jbxx.find('p').data('info')=='load') {
+     			loadCompany();
+     		}else if($(this).data('click')=='nav'){
+     			loadCompany();
+     		}
+     		
+     	}).
+     	on('click', '.com_delete', function(e) {
+     		e.preventDefault();
+     		var li = $(this).closest('div').parent('li');
+			if(confirm("确定要删除吗？不能恢复哦")){
+
+	     		A.ajax('comdelete', {username:'<%=username%>',id:li.attr('id')}, '.inner-jbxx', function(d){
+	     			console.log(d);
+	     			li.remove();
+	     		})
+	     		//公司删除
+			  
+			}else{
+			   //取消
+			}
+
+     	});;
+     	// 公司信息 新增
+
+     	comsubmit.on('click', function(e) {
+     		e.preventDefault();
+
+     		//上传图片
+     		
+
+
+     		$.post('companyadd', $('.form-comadd').serialize(), function(res) {
+     			
+     			var res = JSON.parse(res);
+     			console.log(res);
+     			if (res.code==2000) {
+     				A.alertHtml('.inner-xzgs', 'success', '增加 成功！', '');
+     			}else{
+     				A.alertHtml('.inner-xzgs', 'info', res.code, res.message);
+     			}
+     		});
+     		/*A.ajax('companyadd', {
+     			username:'<%=username%>',
+     			comname:comname.val(),
+     			content:content.val(),
+     			operate:operate.val(),
+     			future:future.val(),
+     			financing:financing.val(),
+     			comlogo:comlogo.val(),
+     		}, '.inner-xzgs', function(d){
+     			console.log(d);
+     			A.alertHtml('.inner-xzgs', 'success', '更新 成功！', '');
+
+     		}, 'post')*/
+
+     	});
+     	
+
+
+
+
+
+     	//加载公司信息
+		function loadCompany(){
+			inner_jbxx.html('加载中……');
+			A.ajax('company', {username:'<%=username%>'}, '.inner-jbxx', function(d){
+				
+				if (d.data=='') {
+					inner_jbxx.html('<p data-info="null" class="label label-info">数据不存在！</p><p class="btn btn-primary reload_jbxx" data-click="nav">刷新看看</p>');
+				}else{
+					var d = d.data;
+					console.log(d.data);
+					var str = '<div class="span12"><a class="btn btn-primary reload_jbxx" data-click="nav">刷新看看</a></div>';
+
+					for (var i = 0; i < d.length; i++) {
+						var name = d[i].name,//名称
+							content = d[i].content,//介绍
+							operate = d[i].operate,//运营情况
+							financing = d[i].financing,//融资
+							future = d[i].future,//未来发展
+							general = d[i].general,//一般
+							disinterest = d[i].disinterest,//没兴趣
+							interest = d[i].interest,
+							id = d[i]._id;//感兴趣
+						str += '<li class="span4" id="'+id+'"><div data-id="com_'+i+'" class="thumbnail"><ul><li>公司名称：'+name+'</li><li>介绍：'+content+'</li><li>运营情况：'+operate+'</li><li>融资情况：'+financing+'</li><li>未来发展：'+future+'</li><li>感兴趣的人（邀请码）：'+interest+'</li><li>没兴趣的人（邀请码）：'+disinterest+'</li><li>一般兴趣的人（邀请码）：'+general+'</li><li><a class="com_delete">删除</a> | <a class="com_update">修改</a></li></ul></div></li>';
+					};
+
+					inner_jbxx.html('<div class="row-fluid"><ul class="thumbnails">'+str+'</ul></div>');
+				}
+			});
+		}
+
+
+
+    })
+
+
+
+
+}
+
+</script>

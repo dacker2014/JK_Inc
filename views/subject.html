@@ -1,0 +1,72 @@
+<% include header.html %>
+
+
+
+<header class="container-fluid">
+	
+	
+    <section class="row-fluid">
+		<form class="span12 subject" action="addsubject" method="post">
+          <fieldset>
+              <legend>注册</legend>
+          </fieldset>
+          <div class="control-group">
+		    <label class="control-label span3">用户名</label>
+		    <div class="controls span9">
+		      <input type="text" id='user_user' class="user_user" name='user' placeholder="请输入用户名" autocomplete="off">
+		    </div>
+		  </div>
+		  <div class="control-group">
+		    <label class="control-label span3">密码</label>
+		    <div class="controls span9">
+		      <input type="text" class="user_password" name="password" placeholder="请输入密码" autocomplete="off">
+		    </div>
+		  </div>
+		  <div class="control-group">
+		    <label class="control-label span3">邮箱</label>
+		    <div class="controls span9">
+		      <input type="text" class="user_email" name="email" placeholder="请输入邮箱" autocomplete="off">
+		    </div>
+		  </div>
+		  <div class="control-group">
+		    <label class="control-label span3">手机号</label>
+		    <div class="controls span9">
+		      <input type="text" class="user_phone" name="iphone" placeholder="请输入手机号" autocomplete="off">
+		    </div>
+		  </div>
+		  <div class="control-group">
+		    <label class="control-label span3">性别</label>
+		    <div class="controls span9">
+		        <div class="control-group span12">
+					<label class="span3" for="radioA" data-radio='1'>
+						<input type="radio" name="sex" id="radioA" checked> 男 
+					</label>  
+					<label class="span3" for="radioB" data-radio='0'>
+						<input type="radio" name="sex" id="radioB" > 女 
+					</label>
+					<input type="hidden" name='sexval' value='1'>
+				</div>
+		    </div>
+		  </div>
+		    
+
+		  <div class="control-group">
+		    <div class="controls submitStatus">
+		    	<button type="submit" class="btn btn-primary submitREG"> 注 册 </button>
+		    </div>
+		  </div>
+        </form>
+		
+		
+    </section>
+	
+</header>
+
+
+<footer class="container-fluid">
+    <section class="row-fluid">
+
+    </section>
+</footer>
+
+<% include footer.html %>

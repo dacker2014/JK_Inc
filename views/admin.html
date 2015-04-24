@@ -1,0 +1,94 @@
+<% include header.html %>
+
+<header class="container-fluid">
+	<% if (result!='') { %>  
+    <section class="row-fluid">
+		<ul>
+			<li>用户管理</li>
+			<li>活动报名</li>
+			<li>项目管理</li>
+
+		</ul>
+    </section>
+    <% } else{%>
+
+    <section class="row-fluid">
+		<form class="form-horizontal" action="home" method="post">
+			<fieldset>
+			    <legend>管理员登陆 </legend>
+			</fieldset>
+			<div class="control-group">
+				<label class="control-label" for="input_user">用户名</label>
+				<div class="controls">
+					<input class="input_user" name="user" type="text" />
+				</div>
+			</div>
+			<div class="control-group">
+				 <label class="control-label" for="input_pass">密码</label>
+				<div class="controls">
+					<input class="input_pass" type="password" name="password" />
+				</div>
+			</div>
+			<div class="control-group">
+				<div class="controls">
+					 <!-- <label class="checkbox"><input type="checkbox" />Remember me</label> --> <button type="submit" class="btn user_submit">登陆</button>
+				</div>
+			</div>
+		</form>
+    </section>
+    <% } %>
+</header>
+
+
+<footer class="container-fluid">
+    <section class="row-fluid">
+
+    </section>
+</footer>
+
+<% include footer.html %>
+
+<script>
+//document.write('<script src=' + ('__proto__' in {} ? 'zepto' : 'jquery') + '.js><\/script>');
+
+window.onload=function(){
+
+	seajs.config({
+	base: '/javascripts',
+	alias: {
+		//'jquery': 'jquery/jquery/1.10.1/jquery',
+        "zepto":  "jquery/zepto/1.1.6/zepto",
+        "all": "share/all/1.0.0/all",
+        'verify':'share/verify/1.0.0/verify',
+	  }
+	});
+
+
+
+    seajs.use(['zepto'], function($,V){
+
+
+        var $ = Zepto;
+        var user_submit = $('.user_submit');
+
+        user_submit.on('click', function(e) {
+
+            var input_user = $('.input_user'),
+                input_pass = $('.input_pass');
+                
+            if (input_user.val()=='') {
+                input_user.attr({placeholder: '用户名不能为空'}).toggleClass('highlight');
+                return false;
+            }else if(input_pass.val()==''){
+                input_pass.attr({placeholder: '密码不能为空'}).toggleClass('highlight');
+                return false;
+            }else{
+                return true;
+            }
+        });
+
+    })
+
+}
+
+</script>

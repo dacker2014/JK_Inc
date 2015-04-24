@@ -1,0 +1,38 @@
+{
+  "name": "JK_Inc",
+  "version": "0.0.1",
+  "description": "浙江省金控微信H5创业公司调查反馈",
+  "scripts": {
+    "start": "node app.js"
+  },
+  "keywords": [
+    "Mongodb",
+    "Express",
+    "Ejs",
+    "Company",
+    "information",
+    "H5"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/highsea/JK_Inc.git"
+  },
+  "dependencies": {
+    "ejs": "*",
+    "express": "3.2.2",
+    "mongoose": "^3.8.24",
+    "multer": "^0.1.8",
+    "nodemailer": "^1.2.1",
+    "session-mongoose": "*"
+  },
+  "devDependencies": {
+    "grunt": "^0.4.5",
+    "grunt-contrib-jshint": "~0.6.0",
+    "grunt-contrib-nodeunit": "~0.2.0",
+    "grunt-contrib-uglify": "~0.2.2",
+    "grunt-contrib-requirejs": "~0.4.1",
+    "grunt-contrib-copy": "~0.4.1",
+    "grunt-contrib-clean": "~0.5.0",
+    "grunt-strip": "~0.2.1"
+  }
+}
