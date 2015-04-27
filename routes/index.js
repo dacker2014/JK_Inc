@@ -165,17 +165,38 @@ exports.homeget = function(req, res) {
     //判断是否登录
     var name = req.session.username;
     if (name) {
+
+        //该项目进入此页面的必定是 管理员 type：1
         fun.userinfo(req, res, name, function(d){
 
-            res.render('home', {
-                title : name+config.productInfo.home,
-                username : name,
-                result : req.session.result,
-                userlogo :d[0].ulogo,
-                usercom: d[0].ucompany,
-                userbanner: d[0].ubanner,
-                date : new Date()
-            });
+            console.log(d);
+            console.log(d[0].type);
+            if (d[0].type=='1') {
+
+                database.userlist.find({}, function(err, doc){
+
+                    if (err) {
+                        fun.friendlyError(req, res, err);
+                    }else{
+                        res.render('home', {
+                            title : name+config.productInfo.home,
+                            username : name,
+                            result : req.session.result,
+                            type : d[0].type,
+                            userlist : doc,
+                            date : new Date(),
+                        });
+                    }
+                })
+
+                
+
+            }else{
+                fun.friendlyError(req, res, config.Code1X[1025]);
+            }
+
+
+            
 
 
         })
@@ -447,6 +468,22 @@ exports.getuser = function(req, res){
 
 
 
+//更改 update 单个用户信息 get
+exports.up1user = function(req, res){
+
+    fun.login_verify(req, res, function (){
+
+        fun.add_update_verify(req, res,function(){
+            var r = req.query,
+                doc = {name:r.user, password:r.password, type:r.type};
+            database.userlist.update({_id:r.id}, doc, {}, function(error){
+
+                fun.json_api(req, res, error, {id:r.id, now:doc});
+
+            });
+        });
+    });
+}
 
 
 
@@ -502,9 +539,9 @@ exports.upload = function(req, res) {
         picname = q.picname;
         
 
-    console.log(q);
+/*    console.log(q);
     console.log(picname);
-    typeof(req.body);
+    typeof(req.body);*/
     if (!username) {
         //文件上传
         console.log('文件上传');

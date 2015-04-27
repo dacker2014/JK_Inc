@@ -51,36 +51,46 @@
 									</div>
 								</form>
 							</div>
+							<!-- <div class="span12">
+								<h3>管理员信息</h3>
+								<ul>
+									<li>姓名：<%=username%></li>
+									<li>姓名：<%=username%></li>
+									<li>姓名：<%=username%></li>
+									
+								</ul>
+							</div> -->
 						</div>
 					</div>
 	    		</li>
 	    		<li class="hygl">
 	    			<div class="row-fluid">
-		    			<ul class="thumbnails">
-							<li class="span4">
-							<div class="thumbnail">
-								<img src="" alt="">
-								<p>项目1</p>
-								<p>删除</p>
-								<p>修改</p>
+		    			<div class="span12 user-curl">
+		    				<table id='userlist'></table>
 
-							</div>
-							</li>
-							<li class="span4">
-						    <div class="thumbnail">
-								<img src="" alt="">
-								<p>项目2</p>
-								<p>删除</p>
-								<p>修改</p>
-						    </div>
-						  	</li>
-							<li class="span4">
-						    <div class="thumbnail">
-								<img src="images/add.gif" alt="">
-								<p><a href="/subject">增加</a></p>
-						    </div>
-						  	</li>
-						</ul>
+							<form class="form-horizontal">
+								<fieldset>
+								    <legend>该操作需要二次登陆 </legend>
+								</fieldset>
+								<div class="control-group">
+									 <label class="control-label" for="name">密钥名称</label>
+									<div class="controls">
+										<input name="name" type="text" />
+									</div>
+								</div>
+								<div class="control-group">
+									 <label class="control-label" for="key">密钥值</label>
+									<div class="controls">
+										<input name="key" type="password" />
+									</div>
+								</div>
+								<div class="control-group">
+									<div class="controls">
+										 <button type="submit" class="btn yanzheng">验证</button>
+									</div>
+								</div>
+							</form>
+						</div>
 					</div>
 	    		</li>
 	    		<li class="gsxxgl" >
@@ -198,18 +208,19 @@ window.onload=function(){
 	seajs.config({
 	base: '/javascripts',
 	alias: {
-		//'jquery': 'jquery/jquery/1.10.1/jquery',
+		'jquery': 'jquery/jquery/1.10.1/jquery',
         //"zepto":  "jquery/zepto/1.1.6/zepto",
         "zepto":  "jquery/zepto/1.0.0/zepto.min",
-
+        "DT" : "jquery/datatable/1.10.4/jquery.dataTables",
         "all": "share/all/1.0.0/all",
         'verify':'share/verify/1.0.0/verify',
 	  }
 	})
 	
-    seajs.use(['zepto', 'all'], function($,A){
+    seajs.use(['zepto', 'all', 'jquery','DT'], function($, A, J, T){
 
-    	var $ = Zepto;
+    	var $ = Zepto,
+    		J = jQuery;
      	
      	var actcontent = $('.actcontent'),
      		actname = $('.actname'),
@@ -329,8 +340,6 @@ window.onload=function(){
      		e.preventDefault();
 
      		//上传图片
-     		
-
 
      		$.post('companyadd', $('.form-comadd').serialize(), function(res) {
      			
@@ -357,8 +366,44 @@ window.onload=function(){
      		}, 'post')*/
 
      	});
-     	
 
+     	//二次登陆验证
+     	$('.yanzheng').on('click', function(e) {
+     		e.preventDefault();
+     		var thisForm = $(this).closest('form');
+     		A.ajax('getuser', thisForm.serialize(), thisForm, function(d){
+     			console.log(d);
+     			$('.user-curl').html('<table id="userlist"></table>');
+				var d = d.data,
+					data_tableArr = [];
+				for (var i = 0; i < d.length; i++) {
+
+					var new_data = {
+						    'yonghuming' : d[i].name,
+						    'mima' : d[i].password,
+						    'youxiang' :  d[i].email,
+						    'dengji': d[i].type,
+						    'id':d[i]._id,
+						    'xuhao':i+1,
+					    };
+
+					data_tableArr.push(new_data);
+				}
+
+				var columnArr = [
+						{ data : 'xuhao'},
+					    { data : 'yonghuming'},
+					    { data : 'mima'},
+					    { data : 'youxiang'},
+					    { data : 'dengji'},
+					    { data : 'id'},
+
+					];
+				A.install_TB('#userlist', data_tableArr, columnArr, '<thead><tr>序号<th></th><th>姓名</th><th>密码</th><th>邮箱</th><th>等级</th><th>id</th></tr></thead><tbody></tbody>');
+     		})
+     	});
+     	
+     	//$('.form-comadd').serialize()
 
 
 
@@ -374,14 +419,10 @@ window.onload=function(){
 					var d = d.data;
 					console.log(d.data);
 					var str = '<div class="span12"><a class="btn btn-primary reload_jbxx" data-click="nav">刷新看看</a></div>';
-
 				    A.lookCom(d, str, function(str){
 				    	inner_jbxx.html('<div class="row-fluid"><ul class="thumbnails">'+str+'</ul></div>');
 				    });
 				};
-
-					
-				
 			});
 		}
 

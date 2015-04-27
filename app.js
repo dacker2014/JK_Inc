@@ -99,6 +99,7 @@ app.get('/getuser', routes.getuser);//by id 二次登陆
 app.get('/userbyname', routes.userbyname);// name 二次登陆
 app.get('/userCount', routes.userCount);
 app.get('/oneuser', routes.oneuser);
+app.get('/up1user', routes.up1user);
 
 
 //项目

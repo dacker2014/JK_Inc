@@ -75,6 +75,33 @@ define(function(require, exports, module) {
 		2 : '未知',
 	}
 
+	all.install_TB = function (t, dataArr, columnArr, tableHead){
+	    
+	    $(t).html('')
+	    .append(tableHead)
+	    .DataTable({
+	        data    : dataArr,
+	        columns : columnArr,
+	        "sDom"  : "l f t i p r",
+	        "oLanguage": {
+	        "sLengthMenu": "每页显示 _MENU_ 条",
+	        "sZeroRecords": "哎哟，找不到……",
+	        "sInfo": "从 _START_ 到 _END_ /共 _TOTAL_ 条数据",
+	        "sInfoEmpty": "没有数据",
+	        "sInfoFiltered": "(从 _MAX_ 条数据中检索)",
+	        "sSearch" : "任意关键字检索",
+	        "oPaginate": {
+	            "sFirst": "首页",
+	            "sPrevious": "前一页",
+	            "sNext": "后一页",
+	            "sLast": "尾页"
+	            },
+	        "sZeroRecords": "没有检索到数据",
+	        "sProcessing": "<img src='http://images.cnitblog.com/blog2015/531703/201503/241551310675303.gif' />"
+	        }
+	    });
+	}
+
 	all.alertFun = function(dom,text,pic){
 		var resultHTML = text;
 		all.inputBg(dom, pic);
