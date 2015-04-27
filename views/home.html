@@ -66,7 +66,7 @@
 	    		<li class="hygl">
 	    			<div class="row-fluid">
 		    			<div class="span12 user-curl">
-		    				<table id='userlist'></table>
+		    				
 
 							<form class="form-horizontal">
 								<fieldset>
@@ -86,10 +86,11 @@
 								</div>
 								<div class="control-group">
 									<div class="controls">
-										 <button type="submit" class="btn yanzheng">验证</button>
+										 <button type="submit" data-cli="yanzheng" class="btn yanzheng">验证</button>
 									</div>
 								</div>
 							</form>
+
 						</div>
 					</div>
 	    		</li>
@@ -202,9 +203,13 @@
 <% include footer.html %>
 
 
+
+
 <script>
+var twologin='';
 window.onload=function(){
 
+console.log(twologin);
 	seajs.config({
 	base: '/javascripts',
 	alias: {
@@ -217,10 +222,11 @@ window.onload=function(){
 	  }
 	})
 	
-    seajs.use(['zepto', 'all', 'jquery','DT'], function($, A, J, T){
+    seajs.use(['zepto', 'all'], function($, A){
 
-    	var $ = Zepto,
-    		J = jQuery;
+    	
+
+    	var $ = Zepto;
      	
      	var actcontent = $('.actcontent'),
      		actname = $('.actname'),
@@ -368,42 +374,73 @@ window.onload=function(){
      	});
 
      	//二次登陆验证
-     	$('.yanzheng').on('click', function(e) {
+     	$('body').on('click', '.yanzheng,.reload_user', function(e) {
      		e.preventDefault();
-     		var thisForm = $(this).closest('form');
-     		A.ajax('getuser', thisForm.serialize(), thisForm, function(d){
+
+     		     		//区分点击来源
+     		if ($(this).data('cli')=='yanzheng') {
+     			var thisForm = $(this).closest('form');
+
+     			loadUser(thisForm.serialize(), thisForm);
+     		}else if($(this).data('cli')=='reload_user'){
+ 
+     			loadUser(twologin, '.user-curl');//
+     		}
+
+     		
+     	})
+     	.on('click', '.userdelete', function(event) {
+     		event.preventDefault();
+     		//user 增删改查  删除
+     		var userid = $(this).closest('tr').children('td').eq(0).data('id');
+     		console.log(userid);
+     		/* Act on the event */
+     		if(confirm("确定要删除吗？不能恢复哦")){
+
+	     		A.ajax('remove1user?'+twologin, {username:'<%=username%>',id:userid}, '.user-curl', function(d){
+	     			console.log(d);
+	     			$(this).closest('tr').remove();
+	     			A.alertHtml('.user-curl', 'success', '删除 成功！', '');
+	     		})
+	     		//用户删除
+			}
+     	}).
+     	on('click', '.userupdate', function(event) {
+     		//user 增删改查  更新
+
+     		event.preventDefault();
+     		var childtd = $(this).closest('tr').children('td'),
+     			userid = childtd.eq(0).data('id');
+
+     			console.log($(this));
+
+     		var datadoc = {
+     			username:'<%=username%>',
+     			id:userid,
+     			user:childtd.eq(1).find('input').val(),
+     			password:childtd.eq(2).find('input').val(),
+     			type:childtd.eq(4).find('select').val(),
+     			email:childtd.eq(3).find('input').val(),
+     		}
+     		console.log(datadoc.type);
+     		/* Act on the event */
+     		A.ajax('up1user?'+twologin, datadoc, '.user-curl', function(d){
      			console.log(d);
-     			$('.user-curl').html('<table id="userlist"></table>');
-				var d = d.data,
-					data_tableArr = [];
-				for (var i = 0; i < d.length; i++) {
+     			A.alertHtml('.user-curl', 'success', '保存 成功！', '');
 
-					var new_data = {
-						    'yonghuming' : d[i].name,
-						    'mima' : d[i].password,
-						    'youxiang' :  d[i].email,
-						    'dengji': d[i].type,
-						    'id':d[i]._id,
-						    'xuhao':i+1,
-					    };
-
-					data_tableArr.push(new_data);
-				}
-
-				var columnArr = [
-						{ data : 'xuhao'},
-					    { data : 'yonghuming'},
-					    { data : 'mima'},
-					    { data : 'youxiang'},
-					    { data : 'dengji'},
-					    { data : 'id'},
-
-					];
-				A.install_TB('#userlist', data_tableArr, columnArr, '<thead><tr>序号<th></th><th>姓名</th><th>密码</th><th>邮箱</th><th>等级</th><th>id</th></tr></thead><tbody></tbody>');
      		})
+     	}).
+     	on('click', '.useradd', function(event) {
+     		//user 增删改查  新增
+
+     		event.preventDefault();
+     		var xuhao = $('.user-curl tbody').children('tr').last().children('td').eq(0).text()-0 + 1;
+     		$('.user-curl tbody').append('<tr><td>'+xuhao+'</td><td><input value="'+A.random(7)+'" /></td><td><input value="empty" /></td><td><input value="empty" /></td><td>'+A.option[7]+'</td><td><a class="btn btn-danger useraddthis">就这样新增</a> </td></tr>');
+     	}).
+     	on('click', '.useraddthis', function(event) {
+     		event.preventDefault();
+     		/* Act on the event */
      	});
-     	
-     	//$('.form-comadd').serialize()
 
 
 
@@ -424,6 +461,26 @@ window.onload=function(){
 				    });
 				};
 			});
+		}
+		//加载用户信息
+		function loadUser(data, thisForm){
+			$('.user-curl').html('');
+     		A.ajax('getuser', data, thisForm, function(d){
+     			var d = d.data;
+     			//console.log(d);
+     			twologin = data;
+     			console.log(twologin);
+
+     			$('.user-curl').html('<div><a class="btn btn-primary useradd">新增</a> <a data-cli="reload_user" class="btn btn-success reload_user">刷新看看</a></div><table class="table table-hover"><thead><tr><th>序号</th><th>用户名</th><th>密码</th><th>邮箱</th><th>用户权限</th><th>操作</th></tr></thead><tbody></tbody></table>');
+     			var str = '';
+
+     			A.lookUser(d, str, function(str){
+     				$('.user-curl tbody').append(str);
+     			})
+
+
+     		})
+
 		}
 
 

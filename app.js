@@ -97,9 +97,13 @@ app.get('/admin', routes.admin);
 //登录查找单用户全字段
 app.get('/getuser', routes.getuser);//by id 二次登陆
 app.get('/userbyname', routes.userbyname);// name 二次登陆
-app.get('/userCount', routes.userCount);
-app.get('/oneuser', routes.oneuser);
-app.get('/up1user', routes.up1user);
+app.get('/userCount', routes.userCount);//查找 字段 数量
+app.get('/oneuser', routes.oneuser);//查找用户（by id） 显示全部字段
+app.get('/up1user', routes.up1user);//更新用户
+app.get('/remove1user', routes.remove1user);//删除用户
+app.get('/adduserget', routes.adduserget);//增加用户&邀请码
+
+
 
 
 //项目

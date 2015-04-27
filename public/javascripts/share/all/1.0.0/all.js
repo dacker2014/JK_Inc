@@ -74,32 +74,21 @@ define(function(require, exports, module) {
 		1 : '男',
 		2 : '未知',
 	}
+//有点傻的方法
+	all.option = {
+		1:'<select><option value="1">超级管理员</option><option value="2">普通用户</option><option value="7">邀请码</option></select>',
+		2:'<select><option value="2">普通用户</option><option value="1">超级管理员</option><option value="7">邀请码</option></select>',
+		7:'<select><option value="7">邀请码</option><option value="1">超级管理员</option><option value="2">普通用户</option></select>',
+	}
 
-	all.install_TB = function (t, dataArr, columnArr, tableHead){
-	    
-	    $(t).html('')
-	    .append(tableHead)
-	    .DataTable({
-	        data    : dataArr,
-	        columns : columnArr,
-	        "sDom"  : "l f t i p r",
-	        "oLanguage": {
-	        "sLengthMenu": "每页显示 _MENU_ 条",
-	        "sZeroRecords": "哎哟，找不到……",
-	        "sInfo": "从 _START_ 到 _END_ /共 _TOTAL_ 条数据",
-	        "sInfoEmpty": "没有数据",
-	        "sInfoFiltered": "(从 _MAX_ 条数据中检索)",
-	        "sSearch" : "任意关键字检索",
-	        "oPaginate": {
-	            "sFirst": "首页",
-	            "sPrevious": "前一页",
-	            "sNext": "后一页",
-	            "sLast": "尾页"
-	            },
-	        "sZeroRecords": "没有检索到数据",
-	        "sProcessing": "<img src='http://images.cnitblog.com/blog2015/531703/201503/241551310675303.gif' />"
-	        }
-	    });
+	all.random = function(n){
+		var chars = ['0','1','2','3','4','5','6','7','8','9','A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z'];
+    	 var res = "";
+	     for(var i = 0; i < n ; i ++) {
+	         var id = Math.ceil(Math.random()*35);
+	         res += chars[id];
+	     }
+	     return res;
 	}
 
 	all.alertFun = function(dom,text,pic){
@@ -136,6 +125,22 @@ define(function(require, exports, module) {
 			logo = d[i].logo,
 			id = d[i]._id;//感兴趣
 		str += '<li class="span4" id="'+id+'"><div data-id="com_'+i+'" class="thumbnail"><ul><li>公司名称：'+name+'</li><li >logo：<a href="'+logo+'" target="_blank"><img src="'+logo+'" height="90" /></a></li><li>介绍：'+content+'</li><li>运营情况：'+operate+'</li><li>融资情况：'+financing+'</li><li>未来发展：'+future+'</li><li>感兴趣的人（邀请码）：'+interest+'</li><li>没兴趣的人（邀请码）：'+disinterest+'</li><li>一般兴趣的人（邀请码）：'+general+'</li><li><a class="com_delete">删除</a> | <a class="com_update">修改</a></li></ul></div></li>';
+		}
+
+		callback(str)
+
+	}
+
+	all.lookUser =  function(d, str, callback){
+
+		for (var i = 0; i < d.length; i++) {
+
+			var yonghuming = d[i].name,
+				mima = d[i].password,
+				youxiang = d[i].email,
+				dengji = d[i].type,
+				id = d[i]._id;
+				str += '<tr><td data-id="'+id+'">'+i+'</td><td><input value="'+yonghuming+'" /></td><td><input value="'+mima+'" /></td><td><input value="'+youxiang+'" /></td><td>'+all.option[dengji]+'</td><td><a class="btn btn-danger userdelete">删除</a> &nbsp; <a class="btn btn-info userupdate">修改了保存</a></td></tr>';
 		}
 
 		callback(str)

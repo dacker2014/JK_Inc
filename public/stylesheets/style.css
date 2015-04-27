@@ -35,3 +35,8 @@ body .tablight{background: #16A185}
 .tab-body > ul > li{display: none}
 .tab-inner img{height: 60px}
 .com_delete,.com_update{cursor: pointer;}
+/*  */
+
+table input{width: 90px;border: none;}
+table select {width: 90px;}
+table td {min-width: 30px;}

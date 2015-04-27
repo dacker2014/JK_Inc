@@ -460,29 +460,84 @@ exports.oneuser = function (req, res){
 exports.getuser = function(req, res){
     //console.log(req.query.name);//key
     fun.login_verify(req, res, function(){
-        database.userlist.find({}, {name : 1, type : 1, password : 1}, {}, function(error, doc){
+        database.userlist.find({}, {name : 1, type : 1, password : 1, email : 1}, {}, function(error, doc){
             fun.json_api(req, res, error, doc);
         })
     });
 }
 
 
+//get 删除 remove 用户
+exports.remove1user = function(req, res){
+    //客户端登陆
+    if (req.session.username==req.query.username) {
+        //二次登陆验证
+        fun.login_verify(req, res, function (){
 
-//更改 update 单个用户信息 get
+            database.userlist.count({_id:req.query.id}, function(err, doc){
+                if (err) {
+                    fun.jsonTips(req, res, 5001, config.Code5X[5001], err);
+                }else{
+                    if (doc) {
+                        database.userlist.remove({_id: req.query.id}, function(error){
+                            fun.jsonTips(req, res, 2000, config.Code2X[2000], null);
+                        });
+                    }else{
+                        fun.jsonTips(req, res, 2014, config.Code2X[2014], null);
+                    }
+                }
+            });
+        });       
+
+    }else{
+        res.redirect('/home');
+    }
+
+    
+}
+
+//更新 update 单个用户信息 get
 exports.up1user = function(req, res){
+    //客户端登陆
+    if (req.session.username==req.query.username) {
+        //二次登陆验证
+        fun.login_verify(req, res, function (){
 
-    fun.login_verify(req, res, function (){
+            fun.add_update_verify(req, res,function(){
+                var r = req.query,
+                    doc = {
+                        name:r.user, 
+                        password:r.password, 
+                        type:r.type,
+                        email:r.email,
+                    };
+                //检查重名
+                //database.userlist.count({name:r.user}, function(error, result){
+                    //if (error) {
+                        //fun.jsonTips(req, res, 5019, config.Code2X[5019], error);
+                    //}else{
+                        //if (result!='') {
+                            //fun.jsonTips(req, res, 2012, config.Code2X[2012], result);
+                        //}else{
 
-        fun.add_update_verify(req, res,function(){
-            var r = req.query,
-                doc = {name:r.user, password:r.password, type:r.type};
-            database.userlist.update({_id:r.id}, doc, {}, function(error){
+                            database.userlist.update({id:r.id}, doc, {}, function(error){
 
-                fun.json_api(req, res, error, {id:r.id, now:doc});
+                                fun.json_api(req, res, error, {id:r.id, now:doc});
 
+                            });
+                        //}
+                    //}
+                    
+
+                //})
+                    
             });
         });
-    });
+
+    }else{
+        res.redirect('/home');
+    }
+
 }
 
 
@@ -493,38 +548,43 @@ exports.up1user = function(req, res){
 @
 */
 exports.adduserget = function(req, res){
+    //客户端登陆
+    if (req.session.username==req.query.username) {
+        //二次登陆验证
+        fun.login_verify(req, res, function(){
 
-    fun.login_verify(req, res, function(){
-
-        fun.add_update_verify(req, res,function(){
-            var r = req.query;
-            var doc = {
-                name        : r.user,
-                password    : r.password,
-                
-                email       : r.email,
-                type        : r.type
-            };
-            //console.log(doc);
-
-            database.userlist.count({name:r.user}, function(err, result){
-                if (err) {
-                    fun.jsonTips(req, res, 5001, err, '');
-                }else{
+            fun.add_update_verify(req, res,function(){
+                var r = req.query;
+                var doc = {
+                    name        : r.user,
+                    password    : r.password,
                     
-                    if (result) {
-                        fun.jsonTips(req, res, '2014', 'user exist', '用户已经存在');
-                    }else{
-                        //插入数据库
-                        database.userlist.create(doc, function(error){
-                            fun.json_api(req, res, error, {id:r.id, now:doc});
-                        })
-                    }
-                }
-            })
+                    email       : r.email,
+                    type        : r.type
+                };
+                //console.log(doc);
 
+                database.userlist.count({name:r.user}, function(err, result){
+                    if (err) {
+                        fun.jsonTips(req, res, 5001, err, '');
+                    }else{
+                        
+                        if (result) {
+                            fun.jsonTips(req, res, '2014', 'user exist', '用户已经存在');
+                        }else{
+                            //插入数据库
+                            database.userlist.create(doc, function(error){
+                                fun.json_api(req, res, error, {id:r.id, now:doc});
+                            })
+                        }
+                    }
+                })
+
+            })
         })
-    })
+    }else{
+        res.redirect('/home');
+    }
 }
 
 
