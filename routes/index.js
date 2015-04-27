@@ -520,7 +520,7 @@ exports.up1user = function(req, res){
                             //fun.jsonTips(req, res, 2012, config.Code2X[2012], result);
                         //}else{
 
-                            database.userlist.update({id:r.id}, doc, {}, function(error){
+                            database.userlist.update({_id:r.id}, doc, {}, function(error){
 
                                 fun.json_api(req, res, error, {id:r.id, now:doc});
 

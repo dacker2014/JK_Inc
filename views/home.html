@@ -421,7 +421,7 @@ console.log(twologin);
      			password:childtd.eq(2).find('input').val(),
      			type:childtd.eq(4).find('select').val(),
      			email:childtd.eq(3).find('input').val(),
-     		}
+     		};
      		console.log(datadoc.type);
      		/* Act on the event */
      		A.ajax('up1user?'+twologin, datadoc, '.user-curl', function(d){
@@ -435,11 +435,26 @@ console.log(twologin);
 
      		event.preventDefault();
      		var xuhao = $('.user-curl tbody').children('tr').last().children('td').eq(0).text()-0 + 1;
-     		$('.user-curl tbody').append('<tr><td>'+xuhao+'</td><td><input value="'+A.random(7)+'" /></td><td><input value="empty" /></td><td><input value="empty" /></td><td>'+A.option[7]+'</td><td><a class="btn btn-danger useraddthis">就这样新增</a> </td></tr>');
+     		$('.user-curl tbody').append('<tr><td>'+xuhao+'</td><td><input value="'+A.random(7)+'" /></td><td><input value="empty" /></td><td><input value="empty" /></td><td>'+A.option[7]+'</td><td><a class="btn btn-success useraddthis">就这样新增</a> </td></tr>');
      	}).
      	on('click', '.useraddthis', function(event) {
      		event.preventDefault();
      		/* Act on the event */
+     		var childtd = $(this).closest('tr').children('td'),
+     			datadoc = {
+	     			username:'<%=username%>',
+	     			//id:userid,
+	     			user:childtd.eq(1).find('input').val(),
+	     			password:childtd.eq(2).find('input').val(),
+	     			type:childtd.eq(4).find('select').val(),
+	     			email:childtd.eq(3).find('input').val(),
+	     		};
+	     		console.log(datadoc);
+     		A.ajax('/adduserget?'+twologin, datadoc, '.user-curl', function(d){
+     			console.log(d);
+     			A.alertHtml('.user-curl', 'success', '新增 成功！', '');
+
+     		})
      	});
 
 
