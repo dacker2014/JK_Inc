@@ -9,7 +9,6 @@ var express = require('express')
   , routes = require('./routes')
   , user = require('./routes/user')
 
-
   , project = require('./routes/project')
   , http = require('http')
   , path = require('path')
@@ -101,15 +100,20 @@ app.get('/userbyname', routes.userbyname);// name 二次登陆
 app.get('/userCount', routes.userCount);
 app.get('/oneuser', routes.oneuser);
 
+
 //项目
 app.get('/subject', project.subject);
 app.get('/subjectsave', project.subjectsave);
 app.get('/company', project.company);
 app.post('/companyadd', project.companyadd);
 app.get('/comdelete', project.comdelete);
+
 //其他
 app.get('/friendly-error', routes.friendlyError);
 app.post('/upload', routes.upload);
+app.get ('/upload', routes.upload);
+
+app.get('/getpic', routes.getpic);
 
 
 

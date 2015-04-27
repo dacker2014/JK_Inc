@@ -24,6 +24,11 @@ define(function(require, exports, module) {
 					tab_body.find('.'+$(this).attr('class')).addClass('block').siblings('li').removeClass('block');
 					$(this).addClass('tablight').siblings('li').removeClass('tablight');
 				});
+			},
+			iframe:function(i){
+				var winW = window.document.body.offsetWidth,
+					winH = window.document.body.offsetHeight;
+				$('body').append('<div class="close-father ab" style="width:'+winW+'px;opacity:0.4;height:'+winH+'px;background:#000;"></div><div class="ab" style="background:#fff;box-shadow: 1px 1px 1px #ccc;width:'+winW/2.5+'px;height:'+winH/4+'px;z-index:99;left:50%;top:50%;margin:'+winH/6*(-1)+'px 0 0 '+winW/8*(-1)+'px;">'+i+'<p><a class="btn close-iframe btn-danger">关闭</a></p></div>')
 			}
 		})
 	})(Zepto)
@@ -35,6 +40,7 @@ define(function(require, exports, module) {
 	$('body').on('click', '.close', function(event) {
 		event.preventDefault();
 		$(this).closest('div').remove();
+		$('.close-father').remove();
 	});
 
 
@@ -88,6 +94,25 @@ define(function(require, exports, module) {
 			backgroundPosition: 'right',
 			backgroundRepeat:'no-repeat'
 		});
+	}
+
+	all.lookCom = function(d, str, callback){
+		for (var i = 0; i < d.length; i++) {
+		var name = d[i].name,//名称
+			content = d[i].content,//介绍
+			operate = d[i].operate,//运营情况
+			financing = d[i].financing,//融资
+			future = d[i].future,//未来发展
+			general = d[i].general,//一般
+			disinterest = d[i].disinterest,//没兴趣
+			interest = d[i].interest,
+			logo = d[i].logo,
+			id = d[i]._id;//感兴趣
+		str += '<li class="span4" id="'+id+'"><div data-id="com_'+i+'" class="thumbnail"><ul><li>公司名称：'+name+'</li><li >logo：<a href="'+logo+'" target="_blank"><img src="'+logo+'" height="90" /></a></li><li>介绍：'+content+'</li><li>运营情况：'+operate+'</li><li>融资情况：'+financing+'</li><li>未来发展：'+future+'</li><li>感兴趣的人（邀请码）：'+interest+'</li><li>没兴趣的人（邀请码）：'+disinterest+'</li><li>一般兴趣的人（邀请码）：'+general+'</li><li><a class="com_delete">删除</a> | <a class="com_update">修改</a></li></ul></div></li>';
+		}
+
+		callback(str)
+
 	}
 
 	all.ajax = function(url, data, dom, callback, type){

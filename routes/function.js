@@ -148,7 +148,15 @@ function friendlyError(req, res, text){
     })
 }
 
+function uploadHtml(req, res, resultPic, username){
+    res.render('upload', {
+        title : config.productInfo.up,
+        resultpic: resultPic,
+        username : username,
+    })
+}
 
+exports.uploadHtml          = uploadHtml;
 exports.add_update_verify 	= add_update_verify;
 exports.login_verify  		= login_verify;
 exports.jsonTips 			= jsonTips;

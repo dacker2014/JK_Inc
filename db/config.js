@@ -16,6 +16,7 @@ var dbLogin = 'mongodb://admin:888888@60.191.125.156:27018/VentureCompany',
 	productInfo = {
 		name : "创业数据库",
 		index : 'App 首页',
+		picupload:'./public/upload/temp/',
 		soso : "搜搜",
 		financing:'最新融资',
 		activity:'活动',
@@ -25,6 +26,7 @@ var dbLogin = 'mongodb://admin:888888@60.191.125.156:27018/VentureCompany',
 		admin: '管理员页面',
 		subject : '的项目',
 		collect : '的收藏',
+		up: '的上传页面',
 		friendlyError : {
 			title:'你犯了一个错误',
 			text:'你直接打开了这个页面，尽管你没犯什么错误 0.0！',
@@ -39,6 +41,8 @@ var dbLogin = 'mongodb://admin:888888@60.191.125.156:27018/VentureCompany',
 		1020:'没有填写信息',
 		1021:'没有填写id，该接口通过ID查询',
 		1022:'没有填写name，该接口通过name查询',
+		1023:'没有邀请码是不允许访问的',
+		1024:'邀请码已经过期了！',
 	},
 	//正常接收 2XXX
 	Code2X = {
@@ -65,6 +69,8 @@ var dbLogin = 'mongodb://admin:888888@60.191.125.156:27018/VentureCompany',
 		4001:'您没有权限，需要密钥哦',
 		4015:'数据不存在',
 		4030:'您居然没有邮箱！email:',
+		4031:'您没有选择文件！',
+		4031:'没有公司信息',
 		
 	},
 	//服务器错误 5XXX

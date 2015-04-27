@@ -7,7 +7,12 @@
 var database = require('./../db/userlist_comment_article'),
     fun = require('./function'),
     nodemailer = require('nodemailer'),
+    formidable = require('formidable'),
+    fs = require('fs'),
     config = require('./../db/config');
+
+var appsetFile = ['./db/appset-', '.json'].join('');// new Date()-0,
+
 
 var transporter = nodemailer.createTransport({
     service: '163',
@@ -17,7 +22,7 @@ var transporter = nodemailer.createTransport({
     }
 });
 
-
+var picPATH = config.productInfo.picupload;
 // string.trim() 前台处理
 
 /*
@@ -26,27 +31,127 @@ var transporter = nodemailer.createTransport({
 */
 exports.index = function(req, res){
 
-    //database.userlist.count({living:1}, function(err, doc){
+    var inviteCode = req.query.code,
+        doc = {
+            name:inviteCode,
+        };
 
-        //req.session.living = err ? err : doc;
+    if (inviteCode&&inviteCode!='') {
 
-        res.render('index', { 
-            title: config.productInfo.index ,
-            result:0,//未登录
-            //living: err ? err : doc
-        });
+        database.userlist.find(doc, function(error, result){
 
-    //})
+            if (error) {
+                fun.friendlyError(req, res, config.Code1X[5019]);
+
+            } else{
+
+                console.log(result);
+                //邀请码存在
+
+                if (result!=''||inviteCode=='hs001') {
+
+                    if (inviteCode=='hs001'||result[0].type!=0) {
+
+                        database.company.find({}, function(error, result){
+                            if (error) {
+                                fun.friendlyError(req, res, config.Code5X[5019]);
+                            }else{
+                                //项目设置信息
+                                var JsonObj = JSON.parse(fs.readFileSync(appsetFile));
+
+                                res.render('index', { 
+                                    title: config.productInfo.index,
+                                    username :inviteCode,
+                                    comlist : result,
+                                    project : JsonObj,
+                                });
+
+                            }
+                        })
+                        
+                        //不删除 remove 邀请码 更新 update type 即可
+                        var updoc = {
+                            type : 0,
+                        };
+
+                        database.userlist.update(doc, updoc, {}, function(error){
+                            if (error) {
+                                //扩展： 保存 json 文件
+                                console.log('更新邀请码 出现了错误：');
+                                console.log(error);
+
+
+                            } else{
+
+                                if (inviteCode!='hs001') {
+
+                                    //发送邮件 通知邀请码已被使用
+                                    var mailOptions = {
+                                        from: 'idacker@163.com', 
+                                        to: 'admin@highsea90.com', 
+                                        subject: '[金控项目]邀请码：'+inviteCode+'已被使用！', 
+                                        text: '[金控项目]邀请码：'+inviteCode+'已被使用！', // plaintext body
+                                        html: '<h2>［金控项目］管理员：</h2><p>您设置的邀请码'+inviteCode+'已被使用！请记得检查，添加。'+'</p><h5>'+config.productInfo.by+'</h5>' // html body
+                                    };
+
+                                    transporter.sendMail(mailOptions, function(err, info){
+                                        if(err){
+                                            //扩展： 保存 json 文件
+                                            console.log('更新邀请码的通知邮件出现了错误：');
+                                            console.log(err);
+                                            
+                                        }else{
+                                            //console.log(info);
+                                        }
+                                    });
+                                }else{
+                                    console.log(inviteCode);
+                                }
+
+                            };
+
+                        })
+
+                    } else{
+                        fun.friendlyError(req, res, config.Code5X[5019]);
+
+                    };
+
+                } else{
+                    fun.friendlyError(req, res, config.Code1X[1024]);
+
+                };
+
+            };
+
+            //req.session.living = err ? err : doc;
+
+            
+
+        }) 
+
+    } else{
+        fun.friendlyError(req, res, config.Code1X[1023]);
+    };
+
+    
 
 };
 
 // 管理员页面
 exports.admin = function(req, res){
-    res.render('admin', {
-        title: config.productInfo.admin,
-        result:0,//未登录
-        resultREG:0//未注册
-    })
+    if (req.session.username) {
+        res.redirect('/home');
+
+    } else{
+        res.render('admin', {
+            title: config.productInfo.admin,
+            result:0,//未登录
+            resultREG:0//未注册
+        })
+
+    };
+    
 }
 
 
@@ -341,25 +446,196 @@ exports.getuser = function(req, res){
 }
 
 
-var fs = require('fs')
-  , formidable = require('formidable')
-  , util = require('util')
-  , sys = require('sys');
-
-exports.upload = function(req, res){
-
-    var form = new formidable.IncomingForm(); 
-    form.uploadDir = '/temp';
-
-    form.parse(req, function(err, fields, files) {  
-
-        console.log(sys.inspect({fields: fields, files: files}));
 
 
-        fun.jsonTips(req, res, 2000, config.Code2X[2000], form);
+
+
+
+/*
+@ get 新增 后台管理员添加 create 用户
+@
+*/
+exports.adduserget = function(req, res){
+
+    fun.login_verify(req, res, function(){
+
+        fun.add_update_verify(req, res,function(){
+            var r = req.query;
+            var doc = {
+                name        : r.user,
+                password    : r.password,
+                
+                email       : r.email,
+                type        : r.type
+            };
+            //console.log(doc);
+
+            database.userlist.count({name:r.user}, function(err, result){
+                if (err) {
+                    fun.jsonTips(req, res, 5001, err, '');
+                }else{
+                    
+                    if (result) {
+                        fun.jsonTips(req, res, '2014', 'user exist', '用户已经存在');
+                    }else{
+                        //插入数据库
+                        database.userlist.create(doc, function(error){
+                            fun.json_api(req, res, error, {id:r.id, now:doc});
+                        })
+                    }
+                }
+            })
+
+        })
+    })
+}
+
+
+/*
+@ 上传页面 需要登录
+@
+*/
+exports.upload = function(req, res) {
+
+    var q = req.body?req.body:req.query,
+        username = req.query.username,
+        picname = q.picname;
         
-    });  
 
+    console.log(q);
+    console.log(picname);
+    typeof(req.body);
+    if (!username) {
+        //文件上传
+        console.log('文件上传');
+        console.log(q);
+
+        var form=new formidable.IncomingForm();
+        form.encoding = 'utf-8';        //设置编辑
+        form.uploadDir = picPATH;     //设置上传目录
+        form.keepExtensions = true;     //保留后缀
+        form.maxFieldsSize = 2 * 1024 * 1024;   //文件大小
+
+        form.parse(req,function(err,fields,files){
+
+            console.log(files);
+
+            if (files.files.name=='') {
+                //没有上传文件
+                fun.friendlyError(req, res, config.Code4X[4031]);
+                //fun.uploadHtml(req, res, resultPic, username);
+
+            } else{
+
+                var extName = 'gif';  //后缀名
+                switch (files.files.type) {
+                    case 'image/jpg':
+                        extName = 'jpg';
+                        break;
+                    case 'image/jpeg':
+                        extName = 'jpeg';
+                        break;         
+                    case 'image/png':
+                        extName = 'png';
+                        break;
+                    case 'image/x-png':
+                        extName = 'png';
+                        break; 
+                    case 'image/gif':
+                        extName = 'gif'        
+                }
+
+                var resultPic = req.session.username+'-'+Date.now()+'.'+extName;
+
+                try{
+                    fs.renameSync(files.files.path, picPATH+resultPic);
+                    fun.uploadHtml(req, res, resultPic, username);
+                    //fun.jsonTips(req, res, 2000, config.Code2X[2000], resultPic);
+                }catch(e){
+                    fun.jsonTips(req, res, 5021, config.Code2X[5021], e);
+                }
+
+            };
+
+            
+
+            
+            
+        });
+
+
+    } else{
+        //get上传页面 req.query
+        console.log('上传页面');
+
+
+        if (req.session.username==username) {
+            fun.uploadHtml(req, res, '1', username);
+        
+
+        } else{
+            res.redirect('/home');
+
+        };
+    };
+
+
+    
+
+
+    
+};        
+// { files: 
+//    { domain: null,
+//      _events: {},
+//      _maxListeners: 10,
+//      size: 2825427,
+//      path: 'tmp/609d14418e2c26f657f26f92531cc4f4',
+//      name: '2868d770410292d70dd51634e90cc02c.jpg',
+//      type: 'image/jpeg',
+//      hash: false,
+//      lastModifiedDate: Fri Apr 24 2015 21:03:55 GMT+0800 (CST),
+//      _writeStream: 
+//       { _writableState: [Object],
+//         writable: true,
+//         domain: null,
+//         _events: {},
+//         _maxListeners: 10,
+//         path: 'tmp/609d14418e2c26f657f26f92531cc4f4',
+//         fd: null,
+//         flags: 'w',
+//         mode: 438,
+//         start: undefined,
+//         pos: undefined,
+//         bytesWritten: 2825427,
+//         closed: true 
+//       } 
+//     } 
+// }
+        // 同步操作文件，需要try catch
+
+ 
+
+
+
+
+exports.getpic = function(req, response){
+    var q = req.query,
+        picname = q.picname;
+    var extName = picname.split('.')[1];
+    console.log(extName);
+    
+    fs.readFile(picPATH+picname,'binary',function(err,file){
+        if(err){
+            response.writeHead(500,{'Content-Type':'text/plain'});
+            response.write(err+'\n');
+            response.end();
+        }else{
+            response.writeHead(200,{'Content-Type':'image/'+extName});
+            response.write(file,'binary');
+            response.end();
+        }
+    });
 }
 
 

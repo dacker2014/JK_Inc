@@ -29,7 +29,7 @@ var userSchema =new Schema({
     time    : {type : Date, default: Date.now},
     email   : String,
     sex     : {type:Number,default:1}, //男1 女0 未知2
-    type    : {type:Number,default:2}, //注销 0 管理员 1 普通用户 2 订阅者 3 游客（禁言禁文） 4 被禁评论的用户 5 被禁发表文章的用户 6
+    type    : {type:Number,default:2}, //注销 0 管理员 1 普通用户 2 订阅者 3 游客（禁言禁文） 4 被禁评论的用户 5 被禁发表文章的用户 6  邀请码 7
     //comment : {type:Boolean,default:1}, //启用评论 1 禁止灌水 0
     //article : {type:Boolean,default:1}, // 启用文章 1 禁言 0
     //enable  : {type : Boolean, default: 1}, // 用户启用 1 注销 0

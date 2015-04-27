@@ -3,12 +3,57 @@
 <header class="container-fluid">
     
     <section class="row-fluid">
-        <nav class="span12">
-            <a href="http://idacker.com"><img src="images/logo.gif" alt=""></a>
-        </nav>
+        <ul class="span12">
+        	<li class="project" data-appname="<%=project.appset.name%>">标题：<%=project.activenow.name%></li>
+        	<li>介绍：<%=project.activenow.content%></li>
+        </ul>
     </section>
 
-    <section class="row-fluid">
+    <section>
+    	<div class="row-fluid">
+	    	<ul class="thumbnails">
+	    		
+	    	<% if(comlist.length){ %>
+				<% comlist.forEach(function(d){ %>
+					<li class="span12">
+						<div class="thumbnail" id="<%=d._id%>"> 
+							<ul>
+								<li>公司名称： <%=d.name%></li>
+								<li>logo: <a href="<%=d.logo%>" target="_blank"><img src="<%=d.logo%>" height="90" /></a></li>
+								<li>简介： <%=d.content%></li>
+								<li>运营情况： <%=d.operate%></li>
+								<li>融资情况： <%=d.financing%></li>
+								<li>未来发展 <%=d.future%></li>
+								<li>
+									<form>
+										<div class="control-group">
+										    <label class="control-label span3">是否有兴趣</label>
+										    <div class="controls span9">
+										        <div class="control-group span12">
+													<label class="span3" for="radioA" data-radio='0'>
+														<input type="radio" name="interest" id="radioA" checked>有兴趣 
+													</label>  
+													<label class="span3" for="radioB" data-radio='1'>
+														<input type="radio" name="interest" id="radioB" > 一般 
+													</label>
+													<label class="span3" for="radioC" data-radio='2'>
+														<input type="radio" name="interest" id="radioC" > 没兴趣 
+													</label>
+													<input type="hidden" name='getinterest' value=''>
+												</div>
+										    </div>
+										</div>
+									</form>
+								</li>
+								
+							</ul>
+						</div>
+					</li>	
+				<% }) %>
+	        <% } %>
+	        </ul>
+    	</div>
+
         
     </section>
 </header>
@@ -21,5 +66,31 @@
 
 <%=include footer.html%>
 
+
+<script type="text/javascript">
+	
+window.onload=function(){
+
+	seajs.config({
+	base: '/javascripts',
+	alias: {
+		//'jquery': 'jquery/jquery/1.10.1/jquery',
+        "zepto":  "jquery/zepto/1.1.6/zepto",
+        "all": "share/all/1.0.0/all",
+        'verify':'share/verify/1.0.0/verify',
+	  }
+	})
+
+	
+    seajs.use(['zepto', 'all'], function($,A){
+
+    	var $ = Zepto;
+
+		$('title').text($('.project').data('appname'));
+
+	})
+}
+
+</script>
 
 

@@ -102,18 +102,7 @@
 						    		</li>
 						    		<li class="tab-inner xzgs inner-xzgs">
 
-<!-- 图片上传 -->
-
-<form method="post" action="upload" enctype="multipart/form-data">
-
-    <input type="file" name="files" multiple="multiple" />
-    <input type="submit" value="send" />
-
-</form>
-
-
-<!-- 图片 -->
-						    			<form class="form-comadd form-horizontal" action="companyadd" method="post" enctype="multipart/form-data" >
+						    			<form class="form-comadd form-horizontal" action="companyadd" method="post">
 											<div class="control-group">
 												 <label class="control-label" for="comname">公司名称</label>
 												<div class="controls">
@@ -123,27 +112,27 @@
 											<div class="control-group">
 												 <label class="control-label" for="content">公司简介</label>
 												<div class="controls">
-													<textarea class="content" name="comcontent" cols="60" rows="5"></textarea>
+													<textarea class="content" name="comcontent" cols="200" rows="2"></textarea>
 												</div>
 											</div>
 											<div class="control-group">
 												 <label class="control-label" for="operate">运营情况</label>
 												<div class="controls">
-													<textarea class="operate" name="comoperate" cols="60" rows="5"></textarea>
+													<textarea class="operate" name="comoperate" cols="200" rows="2"></textarea>
 													
 												</div>
 											</div>
 											<div class="control-group">
 												 <label class="control-label" for="future">未来发展</label>
 												<div class="controls">
-													<textarea class="future" name="comfuture" cols="60" rows="5"></textarea>
+													<textarea class="future" name="comfuture" cols="200" rows="2"></textarea>
 													
 												</div>
 											</div>
 											<div class="control-group">
 												 <label class="control-label" for="financing">融资需求</label>
 												<div class="controls">
-													<textarea class="financing" name="comfinancing" cols="60" rows="5"></textarea>
+													<textarea class="financing" name="comfinancing" cols="200" rows="2"></textarea>
 													
 												</div>
 											</div>
@@ -151,7 +140,9 @@
 												 <label class="control-label" for="comlogo">公司logo</label>
 												<div class="controls">
 													<!-- <input id="img1" class="comlogo" name="comlogo" type="file" > --> 
-													<input type="file" name="files" multiple="multiple"/>
+													<input type="text" name="comlogo" placeholder="推荐：http://a.com/b.jpg" />
+													<a class="btn addpic">手动上传图片</a>
+													<b class="picshow"></b>
 												</div>
 											</div>
 											<div class="control-group">
@@ -163,6 +154,7 @@
 												</div>
 											</div>
 										</form>
+										
 						    		</li>
 						    		<!-- <li class="tab-inner xggs inner-xggs">
 						    			修改
@@ -207,7 +199,9 @@ window.onload=function(){
 	base: '/javascripts',
 	alias: {
 		//'jquery': 'jquery/jquery/1.10.1/jquery',
-        "zepto":  "jquery/zepto/1.1.6/zepto",
+        //"zepto":  "jquery/zepto/1.1.6/zepto",
+        "zepto":  "jquery/zepto/1.0.0/zepto.min",
+
         "all": "share/all/1.0.0/all",
         'verify':'share/verify/1.0.0/verify',
 	  }
@@ -233,6 +227,52 @@ window.onload=function(){
 
      	$.fn.hiTab('.hometab');
      	$.fn.hiTab('.tab-gsxxgl');
+
+     	$('.addpic').on('click', function(event) {
+     		event.preventDefault();
+     		$.fn.iframe('<iframe id="upiframe" src="upload?username=<%=username%>"></iframe>');
+     		/* Act on the event */
+     	});
+     	$('body').on('click', '.close-iframe', function(event) {
+     		event.preventDefault();
+     		var upi = window.top.document.getElementById("upiframe").contentWindow,
+                newpicurl = upi.document.getElementsByTagName('img')[0];
+
+            if (newpicurl==undefined) {
+
+            	alert('您没有选择图片');
+            	$(this).closest('div').remove();
+			    $('.close-father').remove();
+
+            } else{
+
+            	var fullpicurl = location.protocol+'//'+location.host+newpicurl.getAttribute('src');
+	            $('input[name="comlogo"]').val(fullpicurl);
+	            //$('.inner-xzgs').append('<>')
+	            $('.picshow').html('<a href="'+fullpicurl+'" target="_blank"><img height="90px" src="'+fullpicurl+'"></a>')
+	            $(this).closest('div').remove();
+			    $('.close-father').remove();
+
+            };
+
+            
+     		
+     	});
+     	// $('body').on('click', '.pic_upload', function(event) {
+     	// 	event.preventDefault();
+     	// 	$.post('upload', $('.pic_upload_form').serialize(), function(res) {
+     			
+     	// 		var res = JSON.parse(res);
+     	// 		console.log(res);
+     	// 		if (res.code==2000) {
+     	// 			$('.addpic').data('picurl', res.data)
+     	// 			A.alertHtml('.pic_upload_form', 'success', '增加 成功！', '');
+     	// 		}else{
+     	// 			A.alertHtml('.inner-xzgs', 'info', res.code, res.message);
+     	// 		}
+     	// 	});
+     		
+     	// });
      	//H5项目设置 读取
      	A.ajax('subject', {username:'<%=username%>'}, '.xmsz-form', function(d){
      		var d = d.data;
@@ -335,21 +375,13 @@ window.onload=function(){
 					console.log(d.data);
 					var str = '<div class="span12"><a class="btn btn-primary reload_jbxx" data-click="nav">刷新看看</a></div>';
 
-					for (var i = 0; i < d.length; i++) {
-						var name = d[i].name,//名称
-							content = d[i].content,//介绍
-							operate = d[i].operate,//运营情况
-							financing = d[i].financing,//融资
-							future = d[i].future,//未来发展
-							general = d[i].general,//一般
-							disinterest = d[i].disinterest,//没兴趣
-							interest = d[i].interest,
-							id = d[i]._id;//感兴趣
-						str += '<li class="span4" id="'+id+'"><div data-id="com_'+i+'" class="thumbnail"><ul><li>公司名称：'+name+'</li><li>介绍：'+content+'</li><li>运营情况：'+operate+'</li><li>融资情况：'+financing+'</li><li>未来发展：'+future+'</li><li>感兴趣的人（邀请码）：'+interest+'</li><li>没兴趣的人（邀请码）：'+disinterest+'</li><li>一般兴趣的人（邀请码）：'+general+'</li><li><a class="com_delete">删除</a> | <a class="com_update">修改</a></li></ul></div></li>';
-					};
+				    A.lookCom(d, str, function(str){
+				    	inner_jbxx.html('<div class="row-fluid"><ul class="thumbnails">'+str+'</ul></div>');
+				    });
+				};
 
-					inner_jbxx.html('<div class="row-fluid"><ul class="thumbnails">'+str+'</ul></div>');
-				}
+					
+				
 			});
 		}
 
