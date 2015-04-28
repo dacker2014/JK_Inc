@@ -16,7 +16,7 @@
 	    	<% if(comlist.length){ %>
 				<% comlist.forEach(function(d){ %>
 					<li class="span12">
-						<div class="thumbnail" id="<%=d._id%>"> 
+						<div class="thumbnail" data-id="<%=d._id%>" data-cname="<%=d.name%>"> 
 							<ul>
 								<li>公司名称： <%=d.name%></li>
 								<li>logo: <a href="<%=d.logo%>" target="_blank"><img src="<%=d.logo%>" height="90" /></a></li>
@@ -24,8 +24,9 @@
 								<li>运营情况： <%=d.operate%></li>
 								<li>融资情况： <%=d.financing%></li>
 								<li>未来发展 <%=d.future%></li>
+                                <li>公司点评 <%=d.comment%></li>
 								<li>
-									<form>
+									<form class="interest-val">
 										<div class="control-group">
 										    <label class="control-label span3">是否有兴趣</label>
 										    <div class="controls span9">
@@ -39,7 +40,7 @@
 													<label class="span3" for="radioC" data-radio='2'>
 														<input type="radio" name="interest" id="radioC" > 没兴趣 
 													</label>
-													<input type="hidden" name='getinterest' value=''>
+													<input type="hidden" name='getinterest' value='0'>
 												</div>
 										    </div>
 										</div>
@@ -65,6 +66,10 @@
 			<p class="btn span12 btn-large btn-success oksubmit">确认无误－提交</p>
 			<br />
 		</div>
+        <div class="span12">
+            <a href="/register" class="btn span12 btn-large btn-info">感觉不错——注册一下</a>
+            <br />
+        </div>
 	</div>
 
 </footer>
@@ -96,8 +101,31 @@ window.onload = function(){
 		$('body').on('click', '.oksubmit', function(event) {
 			event.preventDefault();
 			/* Act on the event */
+            var ganxingqu = A.interest('thumbnail', 0),
+                yiban = A.interest('thumbnail', 1),
+                meixingqu = A.interest('thumbnail', 2);
+
+
+            console.log(JSON.stringify(ganxingqu));
+            console.log(JSON.stringify(yiban));
+            console.log(JSON.stringify(meixingqu));
+
+            A.ajax('userincom', {
+                code:location.search.split('code=')[1].split('&')[0],
+                interest:JSON.stringify(ganxingqu),
+                disinterest:JSON.stringify(meixingqu),
+                general:JSON.stringify(yiban),
+            }, 'body', function(d){
+                console.log(d);
+                $('body').html('<header class="container-fluid"><section class="row-fluid"><div class="span12"><p>如果注册后我们会给您提供您感兴趣的公司的信息。</p><p><a href="/register" class="btn btn-large btn-info">那就去注册一下吧</a></p></div></section></header>');
+            })
+            
 			
-		});
+		}).
+        on('click', 'label', function() {
+            $(this).siblings('input[name="getinterest"]').val($(this).data('radio'));
+        });
+
 
 	})
 }

@@ -104,14 +104,14 @@ app.get('/remove1user', routes.remove1user);//删除用户
 app.get('/adduserget', routes.adduserget);//增加用户&邀请码
 
 
-
-
 //项目
 app.get('/subject', project.subject);
 app.get('/subjectsave', project.subjectsave);
 app.get('/company', project.company);
 app.post('/companyadd', project.companyadd);
 app.get('/comdelete', project.comdelete);
+app.get('/userincom', project.userincom);//用户感|不|一般|兴趣的公司
+
 
 //其他
 app.get('/friendly-error', routes.friendlyError);

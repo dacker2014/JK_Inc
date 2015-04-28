@@ -45,6 +45,13 @@
 										</div>
 									</div>
 									<div class="control-group">
+										 <label class="control-label" for="emailtext">注册成功的提示语</label>
+										<div class="controls">
+											<textarea class="emailtext" name="emailtext" cols="30" rows="10"></textarea>
+											
+										</div>
+									</div>
+									<div class="control-group">
 										<div class="controls">
 											 <a class="btn appsubmit">更新</a>
 										</div>
@@ -103,7 +110,7 @@
 						    	<ul>
 						    		<li class="jbxx tablight"><a >基本信息</a></li>
 						    		<li class="xzgs"><a >新增公司</a></li>
-						    		<!-- <li class="xggs"><a >修改公司</a></li> -->
+						    		<li class="sjfx"><a >数据分析</a></li>
 						    	</ul>
 						    </nav>
 						    <div class="tab-body body-gsxxgl span12">
@@ -148,6 +155,13 @@
 												</div>
 											</div>
 											<div class="control-group">
+												 <label class="control-label" for="comment">公司点评</label>
+												<div class="controls">
+													<textarea class="comment" name="comcomment" cols="200" rows="2"></textarea>
+													
+												</div>
+											</div>
+											<div class="control-group">
 												 <label class="control-label" for="comlogo">公司logo</label>
 												<div class="controls">
 													<!-- <input id="img1" class="comlogo" name="comlogo" type="file" > --> 
@@ -167,9 +181,13 @@
 										</form>
 										
 						    		</li>
-						    		<!-- <li class="tab-inner xggs inner-xggs">
-						    			修改
-						    		</li> -->
+						    		<li class="tab-inner sjfx inner-sjfx">
+						    			数据分析 开发中
+
+						    			主要功能 公司兴趣分析 | 会员兴趣分析
+						    			<br>如： 对A公司感兴趣的人（邀请码） 有哪些
+						    			<br>如果 该用户（邀请码访问）又注册了，那么可以描绘出对A公司感兴趣的人的用户信息画像（手机，性别……）
+						    		</li>
 
 						    	</ul>
 						    </div>
@@ -207,6 +225,8 @@
 
 <script>
 var twologin='';
+var cominfo = [];
+var userinfo = [];
 window.onload=function(){
 
 console.log(twologin);
@@ -231,6 +251,7 @@ console.log(twologin);
      	var actcontent = $('.actcontent'),
      		actname = $('.actname'),
      		appname = $('.appname'),
+     		emailtext = $('.emailtext'),
      		appsubmit = $('.appsubmit'),
      		gsxxgl = $('.gsxxgl'),
      		inner_jbxx = $('.inner-jbxx'),
@@ -247,7 +268,7 @@ console.log(twologin);
 
      	$('.addpic').on('click', function(event) {
      		event.preventDefault();
-     		$.fn.iframe('<iframe id="upiframe" src="upload?username=<%=username%>"></iframe>');
+     		$.fn.iframe('<iframe id="upiframe" src="upload?username=<%=username%>"></iframe>', 'close-iframe');
      		/* Act on the event */
      	});
      	$('body').on('click', '.close-iframe', function(event) {
@@ -297,7 +318,7 @@ console.log(twologin);
      		actcontent.val(d.activenow.content);
      		actname.val(d.activenow.name);
      		appname.val(d.appset.name);
-
+     		emailtext.val(d.notice.emailtext);
      	});
      	//H5项目设置 更新
      	appsubmit.on('click', function(e) {
@@ -308,6 +329,7 @@ console.log(twologin);
      			appname:appname.val(),
      			actname:actname.val(),
      			actcontent : actcontent.val(),
+     			emailtext : emailtext.val(),
      		}, '.xmsz-form',function(d){
      			console.log(d);
      			A.alertHtml('.xmsz-form', 'success', '更新 成功！', '');
@@ -402,6 +424,7 @@ console.log(twologin);
 	     			$(this).closest('tr').remove();
 	     			A.alertHtml('.user-curl', 'success', '删除 成功！', '');
 	     		})
+	     		$(this).closest('tr').remove();
 	     		//用户删除
 			}
      	}).
@@ -412,12 +435,12 @@ console.log(twologin);
      		var childtd = $(this).closest('tr').children('td'),
      			userid = childtd.eq(0).data('id');
 
-     			console.log($(this));
+     			console.log(userid);
 
      		var datadoc = {
      			username:'<%=username%>',
      			id:userid,
-     			user:childtd.eq(1).find('input').val(),
+     			user:childtd.eq(1).find('a').text(),
      			password:childtd.eq(2).find('input').val(),
      			type:childtd.eq(4).find('select').val(),
      			email:childtd.eq(3).find('input').val(),
@@ -455,6 +478,38 @@ console.log(twologin);
      			A.alertHtml('.user-curl', 'success', '新增 成功！', '');
 
      		})
+     	}).
+     	on('click', '.she_interest', function(event) {
+     		//查看该用户对 各个公司感兴趣的情况
+     		event.preventDefault();
+     		/* Act on the event */
+     		var Str0 = '感兴趣的公司：',
+     			Str1 = '一般的公司：',
+     			Str2 = '没兴趣的公司：';
+     		for (var i = 0; i < userinfo.length; i++) {
+     			var name = userinfo[i].name;
+     			if ($(this).text()==name) {
+     				var interest = userinfo[i].interest,
+     					general = userinfo[i].general,
+     					disinterest = userinfo[i].disinterest;
+     			};
+     		};
+
+			console.log(interest);
+			console.log(general);
+			console.log(disinterest);
+
+			for (var i = 0; i < interest.length; i++) {
+				Str0 +='<p>'+interest[i]+'</p>';
+			};
+			for (var i = 0; i < general.length; i++) {
+				Str1 +='<p>'+general[i]+'</p>';
+			};
+			for (var i = 0; i < disinterest.length; i++) {
+				Str2 +='<p>'+disinterest[i]+'</p>';
+			};
+
+     		$.fn.iframe('<div>'+Str0+Str1+Str2+'</div>', 'close');
      	});
 
 
@@ -486,7 +541,7 @@ console.log(twologin);
      			twologin = data;
      			console.log(twologin);
 
-     			$('.user-curl').html('<div><a class="btn btn-primary useradd">新增</a> <a data-cli="reload_user" class="btn btn-success reload_user">刷新看看</a></div><table class="table table-hover"><thead><tr><th>序号</th><th>用户名</th><th>密码</th><th>邮箱</th><th>用户权限</th><th>操作</th></tr></thead><tbody></tbody></table>');
+     			$('.user-curl').html('<div><a class="btn btn-primary useradd">新增</a> <a data-cli="reload_user" class="btn btn-success reload_user">刷新看看</a></div><table class="table table-hover"><thead><tr><th>序号</th><th>用户名 | 邀请码</th><th>密码</th><th>邮箱</th><th>用户权限</th><th>操作</th></tr></thead><tbody></tbody></table>');
      			var str = '';
 
      			A.lookUser(d, str, function(str){

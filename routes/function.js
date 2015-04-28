@@ -21,6 +21,58 @@ function add_update_verify(req, res, callback){
     }
 }
 
+/*
+@ 首页 邀请码判断
+@ 测试邀请码|过期邀请码|不存在邀请码
+@
+*/
+
+function check_code(req, res, callback){
+    var inviteCode = req.query.code,
+        doc = {
+            name:inviteCode,
+        };
+
+    if (inviteCode&&inviteCode!='') {
+
+        database.userlist.find(doc, function(error, result){
+
+            if (error) {
+                console.log('userlist:')
+                console.log(error);
+                friendlyError(req, res, config.Code1X[5019]);
+
+            } else{
+
+                console.log(result);
+                //邀请码存在
+
+                if (result!=''||inviteCode=='hs001') {
+
+                    //排除成功 后开始执行
+                    //1、更新邀请码|2、读取公司列表
+                    //3、更新用户兴趣（感兴趣，一般，无兴趣）公司
+                    callback(inviteCode, doc, result);
+
+                } else{
+                    friendlyError(req, res, config.Code1X[1026]);
+
+                };
+
+            };
+
+            //req.session.living = err ? err : doc;
+
+        }) 
+
+    } else{
+        friendlyError(req, res, config.Code1X[1023]);
+    };
+
+}
+
+
+
 //方法 菜单字母简写 中文名称 验证--用于 更新菜单 新建菜单
 function add_update_menu(req, res, callback){
     var r = req.query;
@@ -156,6 +208,18 @@ function uploadHtml(req, res, resultPic, username){
     })
 }
 
+function sToArray(req, res, some){
+    if (some) {
+        /*var someStr = req.query.some;
+        return someStr.substring(someStr.indexOf("[")+1,someStr.indexOf("]")).split(',');*/
+        return JSON.parse(some);
+    }else{
+        return '';
+    }
+
+}
+
+
 exports.uploadHtml          = uploadHtml;
 exports.add_update_verify 	= add_update_verify;
 exports.login_verify  		= login_verify;
@@ -164,3 +228,5 @@ exports.json_api 			= json_api;
 exports.add_update_menu 	= add_update_menu;
 exports.userinfo            = userinfo;
 exports.friendlyError       = friendlyError;
+exports.check_code          = check_code;
+exports.sToArray            = sToArray;

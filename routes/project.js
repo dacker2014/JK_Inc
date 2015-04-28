@@ -46,6 +46,7 @@ exports.subjectsave = function(req, res){
            appname : q.appname,//issetSome(req, res, 'appname'),
            actname : q.actname,
            actcontent : q.actcontent,
+           emailtext : q.emailtext,
         };
     //console.log(issetSome(req, res, 'appname'));
     //既做了是否已经登录的判断，又做了登录用户只能读取该用户授权的信息
@@ -59,6 +60,9 @@ exports.subjectsave = function(req, res){
                     name:doc.actname,
                     content:doc.actcontent
                 },
+                notice:{
+                    emailtext:doc.emailtext
+                }
             });
         console.log(textStringify);
 
@@ -127,7 +131,8 @@ exports.companyadd = function(req, res){
             future  : q.comfuture,//未来发展
             financing:q.comfinancing,//融资需求
             content : q.comcontent,//简评
-            logo    : q.comlogo, 
+            logo    : q.comlogo,
+            comment : q.comcomment,
             // interest: [String],//userid Array
             // disinterest:[String],//userid Array
             // general : [String],//userid Array
@@ -201,4 +206,56 @@ exports.comdelete = function(req, res){
         res.redirect('/home');
     }
 
+}
+/*
+@ 用户感兴趣的公司
+@ 
+@
+*/
+
+exports.userincom = function (req, res){
+    var q = req.query;
+
+    //邀请码必须存在|可以过期
+    fun.check_code(req, res, function(inviteCode, doc){
+
+        //更新用户感兴趣|不|一般的公司
+        var updoc = {
+                interest : fun.sToArray(req, res, req.query.interest),
+                disinterest : fun.sToArray(req, res, req.query.disinterest),
+                general : fun.sToArray(req, res, req.query.general),
+            };
+        /*var someStr = req.query.interest;
+        console.log(someStr.substring(someStr.indexOf("[")+1,someStr.indexOf("]")).split(','));*/
+
+
+        database.userlist.update(doc, updoc, {}, function(error){
+            if (error) {
+                //写入错误，最好发送管理员邮件
+                console.log('userincom 更新错误：')
+                fun.jsonTips(req, res, 5019, config.Code2X[5019], error);
+            }else{
+                fun.jsonTips(req, res, 2000, config.Code2X[2000], null);
+
+            }
+        })
+
+    })
+
+}
+
+/*
+@ 公司感兴趣的用户
+@ 
+@
+*/
+
+exports.cominuser = function (req, res){
+    //客户端登陆
+    if (req.session.username==req.query.username) {
+        //二次登陆验证
+        fun.login_verify(req, res, function(){
+
+        })
+    }
 }

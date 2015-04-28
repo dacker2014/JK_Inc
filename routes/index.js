@@ -12,7 +12,7 @@ var database = require('./../db/userlist_comment_article'),
     config = require('./../db/config');
 
 var appsetFile = ['./db/appset-', '.json'].join('');// new Date()-0,
-
+var JsonObj = JSON.parse(fs.readFileSync(appsetFile));
 
 var transporter = nodemailer.createTransport({
     service: '163',
@@ -31,116 +31,79 @@ var picPATH = config.productInfo.picupload;
 */
 exports.index = function(req, res){
 
-    var inviteCode = req.query.code,
-        doc = {
-            name:inviteCode,
-        };
+    fun.check_code(req, res, function(inviteCode, doc, result){
 
-    if (inviteCode&&inviteCode!='') {
+        if (inviteCode=='hs001'||result[0].type!=0) {
+                
+            //排除测试邀请码和过期邀请码
+            database.company.find({}, function(error, result){
+                if (error) {
+                    console.log('company:');
+                    console.log(error);
+                    fun.friendlyError(req, res, config.Code5X[5019]);
+                }else{
+                    //项目设置信息
+                    
 
-        database.userlist.find(doc, function(error, result){
+                    res.render('index', { 
+                        title: config.productInfo.index,
+                        username :inviteCode,
+                        comlist : result,
+                        project : JsonObj,
+                    });
 
-            if (error) {
-                console.log('userlist:')
-                console.log(error);
-                fun.friendlyError(req, res, config.Code1X[5019]);
+                }
+            })
+            
+            //不删除 remove 邀请码 更新 update type 即可
+            var updoc = {
+                type : 0,
+            };
 
-            } else{
-
-                console.log(result);
-                //邀请码存在
-
-                if (result!=''||inviteCode=='hs001') {
-
-                    if (inviteCode=='hs001'||result[0].type!=0) {
-
-                        database.company.find({}, function(error, result){
-                            if (error) {
-                                console.log('company:');
-                                console.log(error);
-                                fun.friendlyError(req, res, config.Code5X[5019]);
-                            }else{
-                                //项目设置信息
-                                var JsonObj = JSON.parse(fs.readFileSync(appsetFile));
-
-                                res.render('index', { 
-                                    title: config.productInfo.index,
-                                    username :inviteCode,
-                                    comlist : result,
-                                    project : JsonObj,
-                                });
-
-                            }
-                        })
-                        
-                        //不删除 remove 邀请码 更新 update type 即可
-                        var updoc = {
-                            type : 0,
-                        };
-
-                        database.userlist.update(doc, updoc, {}, function(error){
-                            if (error) {
-                                //扩展： 保存 json 文件
-                                console.log('更新邀请码 出现了错误：');
-                                console.log(error);
-
-
-                            } else{
-
-                                if (inviteCode!='hs001') {
-
-                                    //发送邮件 通知邀请码已被使用
-                                    var mailOptions = {
-                                        from: 'idacker@163.com', 
-                                        to: 'admin@highsea90.com', 
-                                        subject: '[金控项目]邀请码：'+inviteCode+'已被使用！', 
-                                        text: '[金控项目]邀请码：'+inviteCode+'已被使用！', // plaintext body
-                                        html: '<h2>［金控项目］管理员：</h2><p>您设置的邀请码'+inviteCode+'已被使用！请记得检查，添加。'+'</p><h5>'+config.productInfo.by+'</h5>' // html body
-                                    };
-
-                                    transporter.sendMail(mailOptions, function(err, info){
-                                        if(err){
-                                            //扩展： 保存 json 文件
-                                            console.log('更新邀请码的通知邮件出现了错误：');
-                                            console.log(err);
-                                            
-                                        }else{
-                                            //console.log(info);
-                                        }
-                                    });
-                                }else{
-                                    console.log(inviteCode);
-                                }
-
-                            };
-
-                        })
-                        //更新结束
-
-                    } else{
-                        fun.friendlyError(req, res, config.Code1X[1024]);
-
-                    };
+            //更新 过期
+            database.userlist.update(doc, updoc, {}, function(error){
+                if (error) {
+                    //扩展： 保存 json 文件
+                    console.log('更新邀请码 出现了错误：');
+                    console.log(error);
 
                 } else{
-                    fun.friendlyError(req, res, config.Code1X[1026]);
+
+                    if (inviteCode!='hs001') {
+
+                        //发送邮件 通知邀请码已被使用
+                        var mailOptions = {
+                            from: 'idacker@163.com', 
+                            to: 'admin@highsea90.com', 
+                            subject: '[金控项目]邀请码：'+inviteCode+'已被使用！', 
+                            text: '[金控项目]邀请码：'+inviteCode+'已被使用！', // plaintext body
+                            html: '<h2>［金控项目］管理员：</h2><p>您设置的邀请码'+inviteCode+'已被使用！请记得检查，添加。'+'</p><h5>'+config.productInfo.by+'</h5>' // html body
+                        };
+
+                        transporter.sendMail(mailOptions, function(err, info){
+                            if(err){
+                                //扩展： 保存 json 文件
+                                console.log('更新邀请码的通知邮件出现了错误：');
+                                console.log(err);
+                                
+                            }else{
+                                //console.log(info);
+                            }
+                        });
+                    }else{
+                        console.log(inviteCode);
+                    }
 
                 };
 
-            };
+            })
+            //更新结束
+        } else{
+            fun.friendlyError(req, res, config.Code1X[1024]);
+        };
 
-            //req.session.living = err ? err : doc;
-
-            
-
-        }) 
-
-    } else{
-        fun.friendlyError(req, res, config.Code1X[1023]);
-    };
-
+    })
     
-
 };
 
 // 管理员页面
@@ -329,10 +292,12 @@ exports.adduser = function(req, res){
                         
                     }else{
                         //fun.jsonTips(req, res, 2000, config.Code2X[2000], info.response);
+                        //console.log(JsonObj);
                         res.render('register', {
                             title: "注册页面",
                             result:0,//未登录
-                            resultREG:1//注册成功
+                            resultREG:1,//注册成功
+                            project : JsonObj,
                         })
                     }
                 });
@@ -465,7 +430,7 @@ exports.oneuser = function (req, res){
 exports.getuser = function(req, res){
     //console.log(req.query.name);//key
     fun.login_verify(req, res, function(){
-        database.userlist.find({}, {name : 1, type : 1, password : 1, email : 1}, {}, function(error, doc){
+        database.userlist.find({}, {name : 1, type : 1, password : 1, email : 1, interest:1, disinterest:1, general:1}, {}, function(error, doc){
             fun.json_api(req, res, error, doc);
         })
     });
@@ -680,11 +645,6 @@ exports.upload = function(req, res) {
 
         };
     };
-
-
-    
-
-
     
 };        
 // { files: 

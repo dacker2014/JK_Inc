@@ -50,7 +50,9 @@ var companySchema = new Schema({
     operate : {type:String,default:config.dbtext['wz']},//运营情况
     future  : {type:String,default:config.dbtext['wz']},//未来发展
     financing:{type:String,default:config.dbtext['wz']},//融资需求
-    content : {type:String,default:config.dbtext['wz']},//简评
+    content : {type:String,default:config.dbtext['wz']},//介绍
+    comment : {type:String,default:config.dbtext['wz']},//公司点评
+
     logo : {type:String,default:config.dbtext['error-logo']},
 
     interest: [String],//userid Array
