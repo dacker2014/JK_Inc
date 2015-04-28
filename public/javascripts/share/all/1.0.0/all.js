@@ -76,9 +76,10 @@ define(function(require, exports, module) {
 	}
 //有点傻的方法
 	all.option = {
-		1:'<select><option value="1">超级管理员</option><option value="2">普通用户</option><option value="7">邀请码</option></select>',
-		2:'<select><option value="2">普通用户</option><option value="1">超级管理员</option><option value="7">邀请码</option></select>',
-		7:'<select><option value="7">邀请码</option><option value="1">超级管理员</option><option value="2">普通用户</option></select>',
+		0:'<select><option value="0">过期的邀请码</option><option value="1">超级管理员</option><option value="2">普通用户</option><option value="7">邀请码</option></select>',
+		1:'<select><option value="1">超级管理员</option><option value="2">普通用户</option><option value="7">邀请码</option><option value="0">过期的邀请码</option></select>',
+		2:'<select><option value="2">普通用户</option><option value="1">超级管理员</option><option value="7">邀请码</option><option value="0">过期的邀请码</option></select>',
+		7:'<select><option value="7">邀请码</option><option value="1">超级管理员</option><option value="2">普通用户</option><option value="0">过期的邀请码</option></select>',
 	}
 
 	all.random = function(n){

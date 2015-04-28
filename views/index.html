@@ -60,6 +60,12 @@
 
 
 <footer class="container-fluid">
+	<div class="row-fluid">
+		<div class="span12">
+			<p class="btn span12 btn-large btn-success oksubmit">确认无误－提交</p>
+			<br />
+		</div>
+	</div>
 
 </footer>
 
@@ -69,7 +75,7 @@
 
 <script type="text/javascript">
 	
-window.onload=function(){
+window.onload = function(){
 
 	seajs.config({
 	base: '/javascripts',
@@ -77,7 +83,7 @@ window.onload=function(){
 		//'jquery': 'jquery/jquery/1.10.1/jquery',
         "zepto":  "jquery/zepto/1.1.6/zepto",
         "all": "share/all/1.0.0/all",
-        'verify':'share/verify/1.0.0/verify',
+        //'verify':'share/verify/1.0.0/verify',
 	  }
 	})
 
@@ -87,6 +93,11 @@ window.onload=function(){
     	var $ = Zepto;
 
 		$('title').text($('.project').data('appname'));
+		$('body').on('click', '.oksubmit', function(event) {
+			event.preventDefault();
+			/* Act on the event */
+			
+		});
 
 	})
 }

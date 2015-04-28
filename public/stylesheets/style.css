@@ -40,3 +40,6 @@ body .tablight{background: #16A185}
 table input{width: 90px;border: none;}
 table select {width: 90px;}
 table td {min-width: 30px;}
+
+/*footer */
+.oksubmit{margin-bottom: 2em}

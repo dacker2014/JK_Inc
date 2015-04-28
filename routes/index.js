@@ -41,6 +41,8 @@ exports.index = function(req, res){
         database.userlist.find(doc, function(error, result){
 
             if (error) {
+                console.log('userlist:')
+                console.log(error);
                 fun.friendlyError(req, res, config.Code1X[5019]);
 
             } else{
@@ -54,6 +56,8 @@ exports.index = function(req, res){
 
                         database.company.find({}, function(error, result){
                             if (error) {
+                                console.log('company:');
+                                console.log(error);
                                 fun.friendlyError(req, res, config.Code5X[5019]);
                             }else{
                                 //项目设置信息
@@ -111,14 +115,15 @@ exports.index = function(req, res){
                             };
 
                         })
+                        //更新结束
 
                     } else{
-                        fun.friendlyError(req, res, config.Code5X[5019]);
+                        fun.friendlyError(req, res, config.Code1X[1024]);
 
                     };
 
                 } else{
-                    fun.friendlyError(req, res, config.Code1X[1024]);
+                    fun.friendlyError(req, res, config.Code1X[1026]);
 
                 };
 
