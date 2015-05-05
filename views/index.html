@@ -1,78 +1,115 @@
 <%=include header.html%>
+<!-- <link href="/stylesheets/bootstrap.css" rel="stylesheet"> -->
+<link href="/stylesheets/index.css" rel="stylesheet">
 
-<header class="container-fluid">
-    
-    <section class="row-fluid">
-        <ul class="span12">
-        	<li class="project" data-appname="<%=project.appset.name%>">标题：<%=project.activenow.name%></li>
-        	<li>介绍：<%=project.activenow.content%></li>
-        </ul>
-    </section>
+</head>
 
-    <section>
-    	<div class="row-fluid">
-	    	<ul class="thumbnails">
-	    		
-	    	<% if(comlist.length){ %>
-				<% comlist.forEach(function(d){ %>
-					<li class="span12">
-						<div class="thumbnail" data-id="<%=d._id%>" data-cname="<%=d.name%>"> 
+<body >
+
+<div id="wrapper">
+	
+	<section>
+
+
+		<div id="com-intro">
+			
+		</div>
+		
+		
+		<!-- Demo 1 HTML -->
+
+		<div id="com-wrapper">
+	
+			<div id="companyList" class="clearfix">
+
+				<div class="card project">
+					<section class="row-fluid">
+				        <ul class="span12">
+				        	<li class="pro-name" data-appname="<%=project.appset.name%>"><%=project.activenow.name%></li>
+				        	<li class="pro-text"><%=project.activenow.content%></li>
+				        	<li style="font-size: small;margin: 6em 0 0 0;">温馨提示：可以用手势触摸左右翻页</li>
+				        </ul>
+				    </section>
+				</div>
+			<% d = comlist %>
+			<% com_length = d.length %>
+			<% if(com_length){ %>
+			
+
+
+				<% for(i=0;i<com_length;i++){ %>
+					<div class="card">
+						<div class="thumbnail" data-id="<%=d[i]._id%>" data-cname="<%=d[i].name%>"> 
 							<ul>
-								<li>公司名称： <%=d.name%></li>
-								<li>logo: <a href="<%=d.logo%>" target="_blank"><img src="<%=d.logo%>" height="90" /></a></li>
-								<li>简介： <%=d.content%></li>
-								<li>运营情况： <%=d.operate%></li>
-								<li>融资情况： <%=d.financing%></li>
-								<li>未来发展 <%=d.future%></li>
-                                <li>公司点评 <%=d.comment%></li>
+								<li><i>(<%=(i+1)%>/<%=com_length%>) </i> <b><%=d[i].name%></b></li>
+								<!-- <li>logo: <a href="" target="_blank"><img src="" height="90" /></a></li> -->
+								<li>
+									<h4>公司介绍</h4>
+									<p> <%=d[i].content%></p>
+								</li>
+								<li>
+									<h4>运营情况</h4> 
+									<p><%=d[i].operate%></p>
+								</li>
+								<li>
+									<h4>未来发展</h4> 
+									<p><%=d[i].future%></p>
+								</li>
+								<li>
+									<h4>融资需求</h4>
+									<p> <%=d[i].financing%></p>
+								</li>
+
+                                <li>
+                                	<h4>简评</h4> 
+                                	<p><%=d[i].comment%></p>
+                                </li>
 								<li>
 									<form class="interest-val">
-										<div class="control-group">
-										    <label class="control-label span3">是否有兴趣</label>
-										    <div class="controls span9">
-										        <div class="control-group span12">
-													<label class="span3" for="radioA" data-radio='0'>
-														<input type="radio" name="interest" id="radioA" checked>有兴趣 
-													</label>  
-													<label class="span3" for="radioB" data-radio='1'>
-														<input type="radio" name="interest" id="radioB" > 一般 
-													</label>
-													<label class="span3" for="radioC" data-radio='2'>
-														<input type="radio" name="interest" id="radioC" > 没兴趣 
-													</label>
-													<input type="hidden" name='getinterest' value='0'>
-												</div>
-										    </div>
-										</div>
+										
+										    
+									    <div class="interest-wrap">
+									        <div class="">
+												<label class="btn btn-info" for="radioA" data-radio='0'>
+													<input type="radio" name="interest" id="radioA" checked>有兴趣 
+												</label>  
+												<label class="btn btn-info" for="radioB" data-radio='1'>
+													<input type="radio" name="interest" id="radioB" > 一般 
+												</label>
+												<label class="btn btn-info" for="radioC" data-radio='2'>
+													<input type="radio" name="interest" id="radioC" > 没兴趣 
+												</label>
+												<input type="hidden" name='getinterest' value='0'>
+											</div>
+									    </div>
+										
 									</form>
 								</li>
 								
 							</ul>
 						</div>
-					</li>	
-				<% }) %>
+					</div>	
+				<% } %>
 	        <% } %>
-	        </ul>
-    	</div>
 
-        
-    </section>
-</header>
+	        	<div class="card form-send">
+	        		<p>感谢您的参与，如果您已经选择完毕，那么请您提交结果</p>
+	        		<p>如果提交成功，系统将提醒您注册，这样我们将更好的为您反馈结果，</p>
+	        		<p>谢谢！</p>
 
-
-<footer class="container-fluid">
-	<div class="row-fluid">
-		<div class="span12">
-			<p class="btn span12 btn-large btn-success oksubmit">确认无误－提交</p>
-			<br />
+					<p class="btn span12 btn-large btn-success oksubmit">确认无误－提交</p>
+	        	</div>
+			
+			</div>
+			
 		</div>
-        <div class="span12">
-            <a href="/register" class="btn span12 btn-large btn-info">感觉不错——注册一下</a>
-            <br />
-        </div>
-	</div>
+	
+	</section>
 
-</footer>
+</div>
+
+
+
 
 
 <%=include footer.html%>
@@ -86,18 +123,50 @@ window.onload = function(){
 	base: '/javascripts',
 	alias: {
 		//'jquery': 'jquery/jquery/1.10.1/jquery',
-        "zepto":  "jquery/zepto/1.1.6/zepto",
+        "zepto":  "jquery/zepto/1.1.1/zepto.min",
         "all": "share/all/1.0.0/all",
+        "modernizr":"jquery/modernizr/2.0.6/modernizr.min",
+        "flickable":"jquery/flickable/1.0.4/zepto.flickable.min",
         //'verify':'share/verify/1.0.0/verify',
 	  }
 	})
 
 	
-    seajs.use(['zepto', 'all'], function($,A){
+    seajs.use([ 'modernizr','zepto', 'all', 'flickable'], function(M,$,A,F){
 
     	var $ = Zepto;
 
-		$('title').text($('.project').data('appname'));
+    	$('#companyList').css({
+    		width: 320*(<%=comlist.length%>+2)+'px',
+    	});
+
+    	if(!Modernizr.touch) {
+				$('body').prepend('<div id="warning"><p>很抱歉你使用的是非触摸设备<br />这个Demo适合在手机或pad上演示，强制使用非IE内核浏览器（因为该页面主要服务于移动端用户），<br>并推荐ios5+系统，谢谢～</p></div>').css({
+					background: '#dddddd',
+				});
+			}
+	
+			$('#companyList').flickable({segments:(<%=comlist.length%>+2)});
+			
+			// $('.front, .back').tap(function() {
+			// 	var el = $(this).parent();
+			// 	el.toggleClass('flipped')
+			// });
+			
+			if(!Modernizr.touch) {
+
+				$('#com-intro').append('<p><a class="prev">上一页</a> | <a class="next">下一页</a></p>');
+				$('.next').click(function() { $('#companyList').flickable('scrollNext');});
+				$('.prev').click(function() { $('#companyList').flickable('scrollPrev');});
+				
+				// $('.front, .back').click(function() {
+				// 	var el = $(this).parent();
+				// 	el.toggleClass('flipped')
+				// });
+			}
+
+
+		//$('title').text($('.pro-name').data('appname'));
 		$('body').on('click', '.oksubmit', function(event) {
 			event.preventDefault();
 			/* Act on the event */
@@ -106,9 +175,9 @@ window.onload = function(){
                 meixingqu = A.interest('thumbnail', 2);
 
 
-            console.log(JSON.stringify(ganxingqu));
-            console.log(JSON.stringify(yiban));
-            console.log(JSON.stringify(meixingqu));
+            //console.log(JSON.stringify(ganxingqu));
+            //console.log(JSON.stringify(yiban));
+            //console.log(JSON.stringify(meixingqu));
 
             A.ajax('userincom', {
                 code:location.search.split('code=')[1].split('&')[0],
@@ -117,7 +186,7 @@ window.onload = function(){
                 general:JSON.stringify(yiban),
             }, 'body', function(d){
                 console.log(d);
-                $('body').html('<header class="container-fluid"><section class="row-fluid"><div class="span12"><p>如果注册后我们会给您提供您感兴趣的公司的信息。</p><p><a href="/register" class="btn btn-large btn-info">那就去注册一下吧</a></p></div></section></header>');
+                $('body').html('<div class="form-send"><p>注册后我们会给您提供更有效的反馈意见。</p><p><a href="/register" class="btn zhuce btn-large btn-info">那就注册一下</a></p></div>');
             })
             
 			

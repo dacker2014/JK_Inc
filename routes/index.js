@@ -12,7 +12,7 @@ var database = require('./../db/userlist_comment_article'),
     config = require('./../db/config');
 
 var appsetFile = ['./db/appset-', '.json'].join('');// new Date()-0,
-var JsonObj = JSON.parse(fs.readFileSync(appsetFile));
+
 
 var transporter = nodemailer.createTransport({
     service: '163',
@@ -46,10 +46,10 @@ exports.index = function(req, res){
                     
 
                     res.render('index', { 
-                        title: config.productInfo.index,
+                        title: JSON.parse(fs.readFileSync(appsetFile)).appset.name,
                         username :inviteCode,
                         comlist : result,
-                        project : JsonObj,
+                        project : JSON.parse(fs.readFileSync(appsetFile)),
                     });
 
                 }
@@ -292,12 +292,12 @@ exports.adduser = function(req, res){
                         
                     }else{
                         //fun.jsonTips(req, res, 2000, config.Code2X[2000], info.response);
-                        //console.log(JsonObj);
+                        //console.log(JSON.parse(fs.readFileSync(appsetFile)));
                         res.render('register', {
                             title: "注册页面",
                             result:0,//未登录
                             resultREG:1,//注册成功
-                            project : JsonObj,
+                            project : JSON.parse(fs.readFileSync(appsetFile)),
                         })
                     }
                 });

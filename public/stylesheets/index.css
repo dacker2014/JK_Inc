@@ -1,0 +1,165 @@
+/* clearfix */
+.clearfix:after {
+visibility: hidden;
+display: block;
+font-size: 0;
+content: " ";
+clear: both;
+height: 0;
+}
+* html .clearfix             { zoom: 1; } /* IE6 */
+*:first-child+html .clearfix { zoom: 1; } /* IE7 */
+
+#warning {
+width: 100%;
+background: #C70B0F;
+}
+
+#warning p {
+padding: 10px 20px;
+text-align: center;
+font-size: 14px;
+color: #fff
+}
+
+#companyList {
+  height: 480px;
+  width: 6400px;
+  -webkit-perspective: 1000;
+}
+
+#com-wrapper{width: 320px;height: 460px;overflow: hidden;background: #EFEFEF}
+.pro-text{  margin: 1.5em 0;}
+.project ul{  color: #000;
+  padding: 2em 1.5em;
+  font-size: 1.5em;}
+
+.com-intro {
+	margin: 20px 0;
+	font-size: 14px;
+}
+
+.com-intro h1 {
+	font-weight: bold;
+	font-size: 16px;
+	margin: 0 0 10px 0;
+}
+	
+.card{
+	text-align: left;
+	font: 1.1em/1.5em '';
+	border-radius: 10px;
+	float: left;
+	height: 440px;
+	margin: 10px;
+	position: relative;
+	padding: 0;
+	width: 300px;
+}
+
+
+.card {
+	-webkit-transform-style: preserve-3d;
+	-webkit-animation-name: default;
+	-webkit-animation-duration: 0.5s;
+	-webkit-animation-timing-function: ease-in-out;
+	-webkit-animation-iteration-count: 1;
+	-webkit-animation-fill-mode: forwards;
+}
+/*
+.card.flipped {
+	-webkit-animation-name: cardflipped;
+}
+
+@-webkit-keyframes default { 
+	from 	{ -webkit-transform: rotateY(180deg) translate3d(0,0,0); }
+	to 		{ -webkit-transform: rotateY(0deg) translate3d(0,0,0); }
+}
+
+@-webkit-keyframes cardflipped { 
+	from 	{ -webkit-transform: rotateY(0deg) translate3d(0,0,0); }
+	to 		{ -webkit-transform: rotateY(180deg) translate3d(0,0,0); }
+}*/
+
+
+body{background: #EFEFEF;overflow-x: hidden;color: #000}
+li,ul,p,h4,i,b{font-style: normal;list-style: none;padding: 0;margin: 0}
+.clear {clear: both;float: none;}
+.ab{position:absolute;left:0;top:0;z-index: 9}
+
+body .none{display: none;}
+body .tab-body .block{display: block;}
+
+.highlight{border:1px solid #f00!important;color: #f00!important}
+.register label{text-align: right;}
+/*bootstrap*/
+
+.card .btn{
+	color:#fff;
+}
+
+
+.btn {
+  display: inline-block; 
+  margin-bottom: 0;
+  line-height: 20px;
+  text-align: center;
+  vertical-align: middle;
+  cursor: pointer;
+  border: 1px solid #cccccc;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 1px 2px rgba(0, 0, 0, 0.05);
+  padding: 8px 10px;
+  font-size: 17.5px;
+  -moz-border-radius: 6px;
+  border-radius: 6px;
+}
+
+.btn-success {
+  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+  background-image: -moz-linear-gradient(top, #62c462, #51a351);
+  background-image: linear-gradient(to bottom, #62c462, #51a351);
+  background-repeat: repeat-x;
+  border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
+}
+
+
+.btn-large {
+  padding: 11px 19px;
+  font-size: 17.5px;
+  -moz-border-radius: 6px;
+  border-radius: 6px;
+}
+
+
+.btn-info {
+  color: #ffffff;
+  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+  background-image: linear-gradient(to bottom, #5bc0de, #2f96b4);
+  background-repeat: repeat-x;
+  border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
+
+}
+.thumbnail i,
+.thumbnail b{display: inline-block;text-align: center;}
+.thumbnail b{width: 180px; margin-bottom: 0.5em;}
+.thumbnail p{text-indent: 2em;}
+
+.interest-wrap{  position: absolute;
+  bottom: 0;
+  height: 2em;
+  width: 300px;
+  left: 0;
+  }
+
+/*.interest-wrap label{display: block;width: 29%;margin: 0 1%;float: left;
+  height: 2em;
+  text-align: center;}*/
+.form-send p{text-align: left;text-indent: 2em}
+.zhuce,.oksubmit{width: 170px;margin: 2em auto;display: block;}
+
+
+
+
+
+
+

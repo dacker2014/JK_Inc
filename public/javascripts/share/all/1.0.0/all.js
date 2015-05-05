@@ -225,20 +225,27 @@ define(function(require, exports, module) {
 	        jsonp : "callback",
 	        jsonpCallback : "dataList",
 			success : function (dataList){
+				
+				if (typeof(dataList)=='string') {
+					var data = JSON.parse(dataList);
+				} else{
+					var data = dataList;
+				};
 
-				if (dataList.code==2000) {
-					//all.alertHtml(dom, 'success', '', dataList.message);
+				if (data.code==2000) {
+					//all.alertHtml(dom, 'success', '', data.message);
 
-					callback(dataList);
-				}else if(dataList.code==3001){
+					callback(data);
+				}else if(data.code==3001){
 					all.alertHtml('.form', 'danger', '该账号已经被注册了', '');
 					all.inputBg(dom, 'close.gif');
 				}else{
-					all.alertHtml(dom, 'warning', dataList.code, dataList.message);
+					//console.log(data);
+					all.alertHtml(dom, 'warning', data.code, data.message);
 				}
 			},
 			error : function(){
-					all.alertHtml(dom, 'danger', dataList.code, dataList.message);
+					all.alertHtml(dom, 'danger', data.code, data.message);
 			}
 		})
 	}
