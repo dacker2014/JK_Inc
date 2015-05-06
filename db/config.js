@@ -11,7 +11,7 @@ var dbLogin = 'mongodb://admin:888888@60.191.125.156:27018/VentureCompany',
 	// 自动发送邮件的 参数
 	emailArr = {
         user: 'idacker@163.com',//admin@admin.com
-        pass: 'wang2014'//123456
+        pass: ''//123456
 	},
 	productInfo = {
 		name : "创业数据库",

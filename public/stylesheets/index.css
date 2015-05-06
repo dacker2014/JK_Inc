@@ -144,6 +144,9 @@ body .tab-body .block{display: block;}
 .thumbnail b{width: 180px; margin-bottom: 0.5em;}
 .thumbnail p{text-indent: 2em;}
 
+.thumbnail ul{position:absolute; height:440px; overflow:auto;z-index: 9}
+.interest-val {position: absolute;z-index: 99;bottom: 0;}
+
 .interest-wrap{  position: absolute;
   bottom: 0;
   height: 2em;

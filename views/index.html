@@ -22,7 +22,7 @@
 	
 			<div id="companyList" class="clearfix">
 
-				<div class="card project">
+				<div class="card project" data-next="0">
 					<section class="row-fluid">
 				        <ul class="span12">
 				        	<li class="pro-name" data-appname="<%=project.appset.name%>"><%=project.activenow.name%></li>
@@ -38,8 +38,8 @@
 
 
 				<% for(i=0;i<com_length;i++){ %>
-					<div class="card">
-						<div class="thumbnail" data-id="<%=d[i]._id%>" data-cname="<%=d[i].name%>"> 
+					<div class="card" data-next="<%=(i+1)%>">
+						<div class="thumbnail" data-pg="<%=i%>" data-id="<%=d[i]._id%>" data-cname="<%=d[i].name%>"> 
 							<ul>
 								<li><i>(<%=(i+1)%>/<%=com_length%>) </i> <b><%=d[i].name%></b></li>
 								<!-- <li>logo: <a href="" target="_blank"><img src="" height="90" /></a></li> -->
@@ -60,39 +60,35 @@
 									<p> <%=d[i].financing%></p>
 								</li>
 
-                                <li>
+                                <li style="padding-bottom: 4em">
                                 	<h4>简评</h4> 
                                 	<p><%=d[i].comment%></p>
                                 </li>
-								<li>
-									<form class="interest-val">
-										
-										    
-									    <div class="interest-wrap">
-									        <div class="">
-												<label class="btn btn-info" for="radioA" data-radio='0'>
-													<input type="radio" name="interest" id="radioA" checked>有兴趣 
-												</label>  
-												<label class="btn btn-info" for="radioB" data-radio='1'>
-													<input type="radio" name="interest" id="radioB" > 一般 
-												</label>
-												<label class="btn btn-info" for="radioC" data-radio='2'>
-													<input type="radio" name="interest" id="radioC" > 没兴趣 
-												</label>
-												<input type="hidden" name='getinterest' value='0'>
-											</div>
-									    </div>
-										
-									</form>
-								</li>
-								
 							</ul>
+							<form class="interest-val">
+							    <div class="interest-wrap">
+							        <!-- <div class=""> -->
+										<label class="btn btn-info" for="radioA" data-radio='0'>
+											<input type="radio" name="interest" id="radioA">有兴趣 
+										</label>  
+										<label class="btn btn-info" for="radioB" data-radio='1'>
+											<input type="radio" name="interest" id="radioB" > 一般 
+										</label>
+										<label class="btn btn-info" for="radioC" data-radio='2'>
+											<input type="radio" name="interest" id="radioC" > 没兴趣 
+										</label>
+										<input type="hidden" name='getinterest' value='0'>
+									<!-- </div> -->
+							    </div>
+								
+							</form>
 						</div>
+						
 					</div>	
 				<% } %>
 	        <% } %>
 
-	        	<div class="card form-send">
+	        	<div class="card form-send" data-next="<%=(com_length+1)%>">
 	        		<p>感谢您的参与，如果您已经选择完毕，那么请您提交结果</p>
 	        		<p>如果提交成功，系统将提醒您注册，这样我们将更好的为您反馈结果，</p>
 	        		<p>谢谢！</p>
@@ -140,13 +136,64 @@ window.onload = function(){
     		width: 320*(<%=comlist.length%>+2)+'px',
     	});
 
+    	$('.card').bind('touchmove', function(event) {
+    		/* Act on the event */
+    		//var touchpros =event.touches[0];
+    		var thisPGnum = $(this).data('next')
+    		console.log(thisPGnum);
+    		if (thisPGnum>0&&thisPGnum<(<%=com_length%>+1)) {
+
+				if ($(this).find('input:checked').val()==null) {
+
+					alert('请填写');
+
+				}else{
+					
+					
+				}
+				
+			}
+    	});
+
     	if(!Modernizr.touch) {
 				$('body').prepend('<div id="warning"><p>很抱歉你使用的是非触摸设备<br />这个Demo适合在手机或pad上演示，强制使用非IE内核浏览器（因为该页面主要服务于移动端用户），<br>并推荐ios5+系统，谢谢～</p></div>').css({
 					background: '#dddddd',
 				});
 			}
-	
-			$('#companyList').flickable({segments:(<%=comlist.length%>+2)});
+			var segments = <%=comlist.length%> + 2;
+			
+			var options = {
+				enableDebugger : false,
+				segments : segments,
+				
+				onScrollNext : function(eventData, segment){
+					console.log(segment);
+					/*var thisPGnum = segment-1;
+					var thisPG = $('[data-pg="'+thisPGnum+'"]');
+					console.log('当前：'+thisPGnum);
+					//console.log('总共：'+segments);
+					if (thisPGnum>0&&thisPGnum<(segments-1)) {
+
+						if ($('.interest-wrap').eq(thisPGnum-1).find('input:checked').val()==null) {
+
+							console.log('请填写');
+							onScrollNext(eventData,thisPGnum-1);
+
+							return false;
+						}else{
+							console.log('上一页ok');
+							
+						}
+						
+					}*/
+					
+				},
+				onMove: function(eventData, segment) {
+					console.log('滚动咯');
+				}
+				
+			}
+			$('#companyList').flickable(options);
 			
 			// $('.front, .back').tap(function() {
 			// 	var el = $(this).parent();
