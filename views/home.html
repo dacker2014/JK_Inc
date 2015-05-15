@@ -491,9 +491,9 @@ console.log(twologin);
      		//查看该用户对 各个公司感兴趣的情况
      		event.preventDefault();
      		/* Act on the event */
-     		var Str0 = '感兴趣的公司：',
-     			Str1 = '一般的公司：',
-     			Str2 = '没兴趣的公司：';
+     		var Str0 = '<b>感兴趣的公司：</b>',
+     			Str1 = '<b>一般的公司：</b>',
+     			Str2 = '<b>没兴趣的公司：</b>';
      		for (var i = 0; i < userinfo.length; i++) {
      			var name = userinfo[i].name;
      			if ($(this).text()==name) {

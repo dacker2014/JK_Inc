@@ -7,7 +7,7 @@
 
 // 需要登录的mongodb
 // mongodb://admin:123456@192.168.1.100:27018/yourdb
-var dbLogin = 'mongodb://admin:888888@60.191.125.156:27018/VentureCompany',
+var dbLogin = '',
 	// 自动发送邮件的 参数
 	emailArr = {
         user: 'idacker@163.com',//admin@admin.com

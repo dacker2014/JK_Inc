@@ -1,79 +1,70 @@
 <%=include header.html%>
-<!-- <link href="/stylesheets/bootstrap.css" rel="stylesheet"> -->
 <link href="/stylesheets/index.css" rel="stylesheet">
-<style type="text/css">
-.divScrollBar{background-color:#ddd;position:absolute;opacity:0.5; filter:Alpha(opacity=50);}
-    .divScrollBar:hover{opacity:1; filter:Alpha(opacity=100);}
-    .divScrollBar div{background-color:#aaa; position:absolute; left:0px; top:0px;}
-
-</style>
 </head>
-
 <body >
-
 <div id="wrapper">
-	
 	<section>
-
-
 		<div id="com-intro">
 			
 		</div>
-		
-		
-		<!-- Demo 1 HTML -->
-
 		<div id="com-wrapper">
-	
 			<div id="companyList" class="clearfix">
 
 				<div class="card project" data-next="0">
-					<section class="row-fluid">
-				        <ul class="span12">
+					<section>
+				        <ul>
 				        	<li class="pro-name" data-appname="<%=project.appset.name%>"><%=project.activenow.name%></li>
 				        	<li class="pro-text"><%=project.activenow.content%></li>
-				        	<li style="font-size: small;margin: 6em 0 0 0;">温馨提示：可以用手势触摸左右翻页</li>
+				        	<li style="font-size: small;margin: 10.5em 0 0 0;">温馨提示：可以用手势触摸左右翻页</li>
 				        </ul>
 				    </section>
 				</div>
+
 			<% d = comlist %>
 			<% com_length = d.length %>
 			<% if(com_length){ %>
 			
-
-
 				<% for(i=0;i<com_length;i++){ %>
 					<div class="card" data-next="<%=(i+1)%>">
 						<div class="thumbnail" data-pg="<%=i%>" data-id="<%=d[i]._id%>" data-cname="<%=d[i].name%>"> 
-							<ul>
+
+							<ul id="main">
 								<li><i>(<%=(i+1)%>/<%=com_length%>) </i> <b><%=d[i].name%></b></li>
-								<!-- <li>logo: <a href="" target="_blank"><img src="" height="90" /></a></li> -->
 								<li>
-									<h4>公司介绍 ▼ </h4>
+									<h4>公司介绍 <i>▼</i> </h4>
 									<p class="none"> <%=d[i].content%></p>
 								</li>
 								<li>
-									<h4>运营情况 ▼</h4> 
+									<h4>运营情况 <i>▼</i></h4> 
 									<p class="none"><%=d[i].operate%></p>
 								</li>
 								<li>
-									<h4>未来发展 ▼</h4> 
+									<h4>未来发展 <i>▼</i></h4> 
 									<p class="none"><%=d[i].future%></p>
 								</li>
 								<li>
-									<h4>融资需求 ▼</h4>
+									<h4>融资需求 <i>▼</i></h4>
 									<p class="none"> <%=d[i].financing%></p>
 								</li>
 
-                                <li style="padding-bottom: 4em">
-                                	<h4>简评 ▼</h4> 
+                                <li>
+                                	<h4>简评 <i>▼</i></h4> 
                                 	<p><%=d[i].comment%></p>
                                 </li>
 							</ul>
 							<form class="interest-val">
 							    <div class="interest-wrap">
 							        <!-- <div class=""> -->
-										<label class="btn btn-info" for="radioA" data-radio='0'>
+							        <ul data-interest=''>
+							        	<li class="btn btn-info">
+							        		<b data-interest='0'></b>有兴趣</li>
+							        	<li class="btn btn-info">
+							        		<b data-interest='1'></b>一般</li>
+							        	<li class="btn btn-info">
+							        		<b data-interest='2'></b>没兴趣</li>
+
+							        </ul>
+										<!-- <label class="btn btn-info" for="radioA" data-radio='0'>
 											<input type="radio" name="interest" id="radioA">有兴趣 
 										</label>  
 										<label class="btn btn-info" for="radioB" data-radio='1'>
@@ -82,7 +73,7 @@
 										<label class="btn btn-info" for="radioC" data-radio='2'>
 											<input type="radio" name="interest" id="radioC" > 没兴趣 
 										</label>
-										<input type="hidden" name='getinterest' value='0'>
+										<input type="hidden" name='getinterest' value='0'> -->
 									<!-- </div> -->
 							    </div>
 								
@@ -98,7 +89,7 @@
 	        		<p>如果提交成功，系统将提醒您注册，这样我们将更好的为您反馈结果，</p>
 	        		<p>谢谢！</p>
 
-					<p class="btn span12 btn-large btn-success oksubmit">确认无误－提交</p>
+					<p class="btn span12 btn-large btn-success oksubmit">这样提交</p>
 	        	</div>
 			
 			</div>
@@ -109,13 +100,7 @@
 
 </div>
 
-
-
-
-
 <%=include footer.html%>
-
-
 <script type="text/javascript">
 	
 window.onload = function(){
@@ -123,12 +108,10 @@ window.onload = function(){
 	seajs.config({
 	base: '/javascripts',
 	alias: {
-		//'jquery': 'jquery/jquery/1.10.1/jquery',
         "zepto":  "jquery/zepto/1.1.1/zepto.min",
         "all": "share/all/1.0.0/all",
         "modernizr":"jquery/modernizr/2.0.6/modernizr.min",
         "flickable":"jquery/flickable/1.0.4/zepto.flickable.min",
-        //'verify':'share/verify/1.0.0/verify',
 	  }
 	})
 
@@ -136,110 +119,100 @@ window.onload = function(){
     seajs.use([ 'modernizr','zepto', 'all', 'flickable'], function(M,$,A,F){
 
     	var $ = Zepto;
-
-
     	$('#companyList').css({
     		width: 320*(<%=comlist.length%>+2)+'px',
     	});
 
-		/*var startPosition, endPosition, deltaX, deltaY, moveLength;
-    	$('.card').bind('touchstart',function (e) {
-            var touch = e.touches[0];
-            startPosition = {
-                x: touch.pageX,
-                y: touch.pageY
-            }
-        });
-    	$('.card').bind('touchmove', function(e) {
-    		//var touchpros =e.touches[0];
-   //  		var thisPGnum = $(this).data('next')
-   //  		if (thisPGnum>0&&thisPGnum<(<%=com_length%>+1)) {
-			// 	if ($(this).find('input:checked').val()==null) {
-			// 		alert('请反馈项目意见后查阅下一项目');
-			// 	}
-			// }
-			var touch = e.touches[0];
-            endPosition = {
-                x: touch.pageX,
-                y: touch.pageY
-            }
-            deltaX = endPosition.x - startPosition.x;
-            deltaY = endPosition.y - startPosition.y;
-            moveLength = Math.sqrt(Math.pow(Math.abs(deltaX), 2) + Math.pow(Math.abs(deltaY), 2));
-            alert(deltaY);
-    	});*/
-
-
+    	//优雅降级
     	if(!Modernizr.touch) {
-				$('body').prepend('<div id="warning"><p>很抱歉你使用的是非触摸设备<br />这个Demo适合在手机或pad上演示，强制使用非IE内核浏览器（因为该页面主要服务于移动端用户），<br>并推荐ios5+系统，谢谢～</p></div>').css({
-					background: '#dddddd',
-				});
-			}
-			var segments = <%=comlist.length%> + 2;
+			$('body').prepend('<div id="warning"><p>很抱歉你使用的是非触摸设备<br />这个Demo适合在手机或pad上演示，强制使用非IE内核浏览器（因为该页面主要服务于移动端用户），<br>并推荐ios5+系统，谢谢～</p></div>').css({
+				background: '#dddddd',
+			});
+			//兴趣选择
+			$('.interest-val').on('click', 'li', function(event) {
+				event.preventDefault();
+				$(this).parent('ul').data('interest', $(this).children('b').data('interest'));
+				$(this).children('b').addClass('style-type');
+				$(this).siblings('li').children('b').removeClass('style-type');
+			});
+			//显示详情
+			$('.thumbnail').on('click', 'h4', function(e){
+				$(this).siblings('p').show();
+				$(this).closest('li').siblings('li').children('p').hide();
+			});
+		}
+
+		var segments = <%=comlist.length%> + 2;
+		
+		var options = {
+			enableDebugger : false,
+			segments : segments,
+			onScrollPrev : function(eventData, segment){
+
+			},
 			
-			var options = {
-				enableDebugger : false,
-				segments : segments,
-				onScrollPrev : function(eventData, segment){
+			onScrollNext : function(eventData, segment){
+				console.log(segment);
 
-				},
-				
-				onScrollNext : function(eventData, segment){
-					console.log(segment);
+				var thisPGnum = segment-1;
+				var thisPG = $('[data-pg="'+thisPGnum+'"]');
+				console.log('当前：'+thisPGnum);
+				//console.log('总共：'+segments);
+				if (thisPGnum>0&&thisPGnum<(segments-1)) {
 
-					var thisPGnum = segment-1;
-					var thisPG = $('[data-pg="'+thisPGnum+'"]');
-					console.log('当前：'+thisPGnum);
-					//console.log('总共：'+segments);
-					if (thisPGnum>0&&thisPGnum<(segments-1)) {
+					if ($('.interest-wrap').eq(thisPGnum-1).children('ul').data('interest')=='') {
 
-						if ($('.interest-wrap').eq(thisPGnum-1).find('input:checked').val()==null) {
-
-							alert('请反馈项目意见后查阅下一项目');
-							//onScrollNext(eventData,thisPGnum-1);
-							//$(this).flickable({onScrollPrev:function(eventData,thisPGnum){}});
-							$(this).flickable('prevSegment', options.onScrollPrev);
-
-
-							//return false;
-						}else{
-							console.log('上一页ok');
-							
-						}
-						
+						alert('请反馈项目意见后查阅下一项目');
+						//onScrollNext(eventData,thisPGnum-1);
+						//$(this).flickable({onScrollPrev:function(eventData,thisPGnum){}});
+						$(this).flickable('prevSegment', options.onScrollPrev);
+						//return false;
+					}else{
+						console.log('上一页ok');
 					}
 					
-				},
-				onMove: function(eventData, segment) {
-					//console.log('滚动咯');
 				}
 				
+			},
+			onMove: function(eventData, segment) {
+				//console.log('滚动咯');
 			}
-			$('#companyList').flickable(options);
 			
-			// $('.front, .back').tap(function() {
+		}
+
+		$('#companyList').flickable(options);
+		
+		// $('.front, .back').tap(function() {
+		// 	var el = $(this).parent();
+		// 	el.toggleClass('flipped')
+		// });
+		
+		if(!Modernizr.touch) {
+
+			$('#com-intro').append('<p><a class="prev">上一页</a> | <a class="next">下一页</a></p>');
+			$('.next').click(function() { $('#companyList').flickable('scrollNext');});
+			$('.prev').click(function() { $('#companyList').flickable('scrollPrev');});
+			
+			// $('.front, .back').click(function() {
 			// 	var el = $(this).parent();
 			// 	el.toggleClass('flipped')
 			// });
-			
-			if(!Modernizr.touch) {
-
-				$('#com-intro').append('<p><a class="prev">上一页</a> | <a class="next">下一页</a></p>');
-				$('.next').click(function() { $('#companyList').flickable('scrollNext');});
-				$('.prev').click(function() { $('#companyList').flickable('scrollPrev');});
-				
-				// $('.front, .back').click(function() {
-				// 	var el = $(this).parent();
-				// 	el.toggleClass('flipped')
-				// });
-			}
+		}
 
 
 		//$('title').text($('.pro-name').data('appname'));
-		$('.thumbnail').on('click', 'h4', function(e){
+		$('.thumbnail').on('touchstart', 'h4', function(e){
 			$(this).siblings('p').show();
 			$(this).closest('li').siblings('li').children('p').hide();
-		})
+		});
+		//兴趣选择
+		$('.interest-val').on('touchstart', 'li', function(event) {
+			event.preventDefault();
+			$(this).parent('ul').data('interest', $(this).children('b').data('interest'));
+			$(this).children('b').addClass('style-type');
+			$(this).siblings('li').children('b').removeClass('style-type');
+		});
+		//提交时筛选
 		$('body').on('click', '.oksubmit', function(event) {
 			event.preventDefault();
 			/* Act on the event */
@@ -248,9 +221,9 @@ window.onload = function(){
                 meixingqu = A.interest('thumbnail', 2);
 
 
-            //console.log(JSON.stringify(ganxingqu));
-            //console.log(JSON.stringify(yiban));
-            //console.log(JSON.stringify(meixingqu));
+            console.log(JSON.stringify(ganxingqu));
+            console.log(JSON.stringify(yiban));
+            console.log(JSON.stringify(meixingqu));
 
             A.ajax('userincom', {
                 code:location.search.split('code=')[1].split('&')[0],

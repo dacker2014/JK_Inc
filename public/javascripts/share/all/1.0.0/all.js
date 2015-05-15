@@ -28,7 +28,7 @@ define(function(require, exports, module) {
 			iframe:function(i,close){
 				var winW = window.document.body.offsetWidth,
 					winH = window.document.body.offsetHeight;
-				$('body').append('<div class="close-father ab" style="width:'+winW+'px;opacity:0.4;height:'+winH+'px;background:#000;"></div><div class="ab" style="background:#fff;box-shadow: 1px 1px 1px #ccc;width:'+winW/2.5+'px;height:'+winH/4+'px;z-index:99;left:50%;top:50%;margin:'+winH/6*(-1)+'px 0 0 '+winW/8*(-1)+'px;">'+i+'<p><a class="btn '+close+' btn-danger">关闭</a></p></div>')
+				$('body').append('<div class="close-father ab" style="width:'+winW+'px;opacity:0.4;background:#000;"></div><div class="ab" style="background:#fff;box-shadow: 1px 1px 1px #ccc;width:'+winW/2.5+'px;z-index:99;left:50%;top:50%;margin:'+winH/6*(-1)+'px 0 0 '+winW/8*(-1)+'px;">'+i+'<p><a class="btn '+close+' btn-danger">关闭</a></p></div>')
 			}
 		})
 	})(Zepto)
@@ -183,9 +183,9 @@ define(function(require, exports, module) {
 	}*/
 	/*
 	@ cla DOM | val Number
-	@
+	@ radio
 	*/
-	all.interest = function(cla, val){
+/*	all.interest = function(cla, val){
 		var doc = [];
 		var elm = $('.'+cla);
 		for (var i = 0; i < elm.length; i++) {
@@ -195,6 +195,23 @@ define(function(require, exports, module) {
 			if (elmval==val) {
 				doc.push(elmname);
 			}
+		};
+		return doc;
+	}*/
+	/*
+	@ cla DOM | val Number
+	@ radio
+	*/
+	all.interest = function (cla,val) {
+		var doc = [];
+		var elm = $('.'+cla);
+		for (var i = 0; i < elm.length; i++) {
+			var elmid = elm.eq(i).data('id');
+			var elmname = elm.eq(i).data('cname');
+			var elmval = $('[data-id="'+elmid+'"]').children('form').find('ul').data('interest');
+			if (elmval==val) {
+				doc.push(elmname);
+			};
 		};
 		return doc;
 	}

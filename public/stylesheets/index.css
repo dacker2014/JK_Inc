@@ -1,63 +1,39 @@
-/* clearfix */
-.clearfix:after {
-visibility: hidden;
-display: block;
-font-size: 0;
-content: " ";
-clear: both;
-height: 0;
-}
+/**
+ * 首页css
+ * github: https://github.com/highsea/JK_Inc
+ * @author Gao Hai <admin@highsea90.com>
+ * @link http://highsea90.com
+ */
+
+/* reset */
+body{background: #EFEFEF;overflow-x: hidden;color: #000}
+li,ul,p,h4,i,b{font-style: normal;list-style: none;padding: 0;margin: 0}
+.clearfix:after{visibility:hidden;display:block;font-size:0;content:" ";clear:both;height:0}
 * html .clearfix             { zoom: 1; } /* IE6 */
 *:first-child+html .clearfix { zoom: 1; } /* IE7 */
+.clear {clear: both;float: none;}
+.ab{position:absolute;left:0;top:0;z-index: 9}
+/* for js */
+body .none{display: none;}
+body .tab-body .block{display: block;}
+.highlight{border:1px solid #f00!important;color: #f00!important}
+/* 优雅降级 */
+#warning{width:100%;background:#c70b0f}
+#warning p{padding:10px 20px;text-align:center;font-size:14px;color:#fff}
 
-#warning {
-width: 100%;
-background: #C70B0F;
-}
+/* 项目css */
+#wrapper{margin:0 auto;width:320px}
+#companyList{height:480px}
+#com-wrapper{width:320px;height:460px;overflow:hidden;background:#efefef}
+.pro-text{margin:1.2em 0;text-align:center;font:.55em/1.6em '';padding:0 1em}
+.pro-name{text-align:center;font:1.15em/1.5em ''}
+.project ul{color:#000;padding:2em 1.5em;font-size:1.5em}
+.com-intro{margin:20px 0;font-size:14px}
+.com-intro h1{font-weight:bold;font-size:16px;margin:0 0 10px 0}
+.card{text-align:left;font:1.1em/1.5em '';border-radius:10px;float:left;height:440px;padding:10px;position:relative;width:300px}
 
-#warning p {
-padding: 10px 20px;
-text-align: center;
-font-size: 14px;
-color: #fff
-}
-
-#companyList {
-  height: 480px;
-  width: 6400px;
-  -webkit-perspective: 1000;
-}
-
-#com-wrapper{width: 320px;height: 460px;overflow: hidden;background: #EFEFEF}
-.pro-text{  margin: 1.5em 0;}
-.project ul{  color: #000;
-  padding: 2em 1.5em;
-  font-size: 1.5em;}
-
-.com-intro {
-	margin: 20px 0;
-	font-size: 14px;
-}
-
-.com-intro h1 {
-	font-weight: bold;
-	font-size: 16px;
-	margin: 0 0 10px 0;
-}
-	
-.card{
-	text-align: left;
-	font: 1.1em/1.5em '';
-	border-radius: 10px;
-	float: left;
-	height: 440px;
-	margin: 10px;
-	position: relative;
-	padding: 0;
-	width: 300px;
-}
-
-
+/* 3d卡牌载入 */
+/*
 .card {
 	-webkit-transform-style: preserve-3d;
 	-webkit-animation-name: default;
@@ -66,7 +42,7 @@ color: #fff
 	-webkit-animation-iteration-count: 1;
 	-webkit-animation-fill-mode: forwards;
 }
-/*
+
 .card.flipped {
 	-webkit-animation-name: cardflipped;
 }
@@ -81,84 +57,39 @@ color: #fff
 	to 		{ -webkit-transform: rotateY(180deg) translate3d(0,0,0); }
 }*/
 
-
-body{background: #EFEFEF;overflow-x: hidden;color: #000}
-li,ul,p,h4,i,b{font-style: normal;list-style: none;padding: 0;margin: 0}
-.clear {clear: both;float: none;}
-.ab{position:absolute;left:0;top:0;z-index: 9}
-
-body .none{display: none;}
-body .tab-body .block{display: block;}
-
-.highlight{border:1px solid #f00!important;color: #f00!important}
-.register label{text-align: right;}
-/*bootstrap*/
-
-.card .btn{
-	color:#fff;
-}
-
-
-.btn {
-  display: inline-block; 
-  margin-bottom: 0;
-  line-height: 20px;
-  text-align: center;
-  vertical-align: middle;
-  cursor: pointer;
-  border: 1px solid #cccccc;
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 1px 2px rgba(0, 0, 0, 0.05);
-  padding: 8px 10px;
-  font-size: 17.5px;
-  -moz-border-radius: 6px;
-  border-radius: 6px;
-}
-
-.btn-success {
-  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
-  background-image: -moz-linear-gradient(top, #62c462, #51a351);
-  background-image: linear-gradient(to bottom, #62c462, #51a351);
-  background-repeat: repeat-x;
-  border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
-}
+/* btn ui  */
+.register label{text-align:right}
+.card .btn{color:#fff}
+.btn{display:inline-block;margin-bottom:0;line-height:20px;text-align:center;vertical-align:middle;cursor:pointer;border:1px solid #ccc;box-shadow:inset 0 1px 0 rgba(255,255,255,0.2),0 1px 2px rgba(0,0,0,0.05);padding:0 3px 6px 3px;font-size:1.2em;-moz-border-radius:6px;border-radius:6px}
+.btn-success{text-shadow:0 -1px 0 rgba(0,0,0,0.25);background:#62c462;border-color:rgba(0,0,0,0.1) rgba(0,0,0,0.1) rgba(0,0,0,0.25)}
+.btn-large{padding:11px 19px;font-size:1.2em;-moz-border-radius:6px;border-radius:6px}
+.btn-info{color:#fff;text-shadow:0 -1px 0 rgba(0,0,0,0.25);background:-webkit-linear-gradient(top,#70bfef,#4097ce);background:-moz-linear-gradient(top,#70bfef,#4097ce);background:linear-gradient(top,#70bfef,#4097ce);border-color:rgba(0,0,0,0.1) rgba(0,0,0,0.1) rgba(0,0,0,0.25)}
+.btn-info:hover{background:-webkit-linear-gradient(top,#1a71a8,#1976b1);background:-moz-linear-gradient(top,#1a71a8,#1976b1);background:linear-gradient(top,#1a71a8,#1976b1)}
+.thumbnail i,.thumbnail b{display:inline-block;text-align:center}
+.thumbnail b{margin-bottom:.5em}
+.thumbnail p{text-indent:2em}
+.interest-wrap ul{position:absolute;width:100%;overflow:auto;z-index:9;bottom:0}
+.interest-val{position:absolute;z-index:99;bottom:0}
+.interest-wrap{position:absolute;bottom:0;width:300px;left:0;text-align:center}
+.form-send{padding-top:30px}
+.form-send p{text-align:left;text-indent:2em}
+.zhuce,.oksubmit{width:170px;margin:2em auto;display:block}
 
 
-.btn-large {
-  padding: 11px 19px;
-  font-size: 17.5px;
-  -moz-border-radius: 6px;
-  border-radius: 6px;
-}
+/* 5.13 add */
+#main li{ background:#fff; border:1px solid #e2e2e2; padding:8px 15px; margin:5px 0; }
+#main li b{ margin: 0;text-align: left;}
+#main li h4{ font-size:1em; line-height:1.5em; width: 270px;}
+#main li h4 i{ display:inline-block; float: right; color: #70bfef;}
+#main li p{ font-size: 0.9em; line-height:1.5em;}
+li.check p{ text-align:center;}
+li.check p label,input{ display:inline-block;}
+li.check p label { padding-right:20px; }
 
-
-.btn-info {
-  color: #ffffff;
-  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
-  background-image: linear-gradient(to bottom, #5bc0de, #2f96b4);
-  background-repeat: repeat-x;
-  border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
-
-}
-.thumbnail i,
-.thumbnail b{display: inline-block;text-align: center;}
-.thumbnail b{width: 180px; margin-bottom: 0.5em;}
-.thumbnail p{text-indent: 2em;}
-
-.thumbnail ul{position:absolute; height:440px; overflow:auto;z-index: 9}
-.interest-val {position: absolute;z-index: 99;bottom: 0;}
-
-.interest-wrap{  position: absolute;
-  bottom: 0;
-  height: 2em;
-  width: 300px;
-  left: 0;
-  }
-
-/*.interest-wrap label{display: block;width: 29%;margin: 0 1%;float: left;
-  height: 2em;
-  text-align: center;}*/
-.form-send p{text-align: left;text-indent: 2em}
-.zhuce,.oksubmit{width: 170px;margin: 2em auto;display: block;}
+/* 5.14  add */
+.interest-wrap b{display:inline-block;width:12px;height:12px;margin:10px 3px 0 3px;border-radius:12px;border:1px solid #000;background:#fff}
+body .style-type{background:#000;box-shadow:1px 1px 2px #222}
+.interest-wrap li{width:28%}
 
 
 
