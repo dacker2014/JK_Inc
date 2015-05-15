@@ -65,17 +65,7 @@
 							        		<b data-interest='2'></b>没兴趣</li>
 
 							        </ul>
-										<!-- <label class="btn btn-info" for="radioA" data-radio='0'>
-											<input type="radio" name="interest" id="radioA">有兴趣 
-										</label>  
-										<label class="btn btn-info" for="radioB" data-radio='1'>
-											<input type="radio" name="interest" id="radioB" > 一般 
-										</label>
-										<label class="btn btn-info" for="radioC" data-radio='2'>
-											<input type="radio" name="interest" id="radioC" > 没兴趣 
-										</label>
-										<input type="hidden" name='getinterest' value='0'> -->
-									<!-- </div> -->
+										
 							    </div>
 								
 							</form>
@@ -116,7 +106,6 @@ window.onload = function(){
 	  }
 	})
 
-	
     seajs.use([ 'modernizr','zepto', 'all', 'flickable'], function(M,$,A,F){
 
     	var $ = Zepto;
@@ -127,7 +116,6 @@ window.onload = function(){
 		$('.card').css({
 			height: renderHeight-15+'px',
 		});
-		//alert(renderHeight);
 
     	//优雅降级
     	if(!Modernizr.touch) {
@@ -158,51 +146,37 @@ window.onload = function(){
 			},
 			
 			onScrollNext : function(eventData, segment){
-				console.log(segment);
+				//console.log(segment);
 
 				var thisPGnum = segment-1;
 				var thisPG = $('[data-pg="'+thisPGnum+'"]');
-				console.log('当前：'+thisPGnum);
+				//console.log('当前：'+thisPGnum);
 				//console.log('总共：'+segments);
 				if (thisPGnum>0&&thisPGnum<(segments-1)) {
 
 					if ($('.interest-wrap').eq(thisPGnum-1).children('ul').data('interest')=='') {
 
 						alert('请反馈项目意见后查阅下一项目');
-						//onScrollNext(eventData,thisPGnum-1);
-						//$(this).flickable({onScrollPrev:function(eventData,thisPGnum){}});
 						$(this).flickable('prevSegment', options.onScrollPrev);
-						//return false;
 					}else{
-						console.log('上一页ok');
+						//console.log('上一页ok');
 					}
 					
 				}
 				
 			},
 			onMove: function(eventData, segment) {
-				//console.log('滚动咯');
 			}
 			
 		}
 
 		$('#companyList').flickable(options);
 		
-		// $('.front, .back').tap(function() {
-		// 	var el = $(this).parent();
-		// 	el.toggleClass('flipped')
-		// });
-		
 		if(!Modernizr.touch) {
 
 			$('#com-intro').append('<p><a class="prev">上一页</a> | <a class="next">下一页</a></p>');
 			$('.next').click(function() { $('#companyList').flickable('scrollNext');});
 			$('.prev').click(function() { $('#companyList').flickable('scrollPrev');});
-			
-			// $('.front, .back').click(function() {
-			// 	var el = $(this).parent();
-			// 	el.toggleClass('flipped')
-			// });
 		}
 
 
@@ -215,10 +189,6 @@ window.onload = function(){
 			}else{
 				$(this).children('p').toggleClass('none');
 			}
-			
-				
-			
-			
 
 		});
 		//兴趣选择
@@ -239,9 +209,9 @@ window.onload = function(){
                 meixingqu = A.interest('thumbnail', 2);
 
 
-            console.log(JSON.stringify(ganxingqu));
-            console.log(JSON.stringify(yiban));
-            console.log(JSON.stringify(meixingqu));
+            //console.log(JSON.stringify(ganxingqu));
+            //console.log(JSON.stringify(yiban));
+            //console.log(JSON.stringify(meixingqu));
 
             A.ajax('userincom', {
                 code:location.search.split('code=')[1].split('&')[0],
@@ -249,7 +219,7 @@ window.onload = function(){
                 disinterest:JSON.stringify(meixingqu),
                 general:JSON.stringify(yiban),
             }, 'body', function(d){
-                console.log(d);
+                //console.log(d);
                 $('body').html('<div class="form-send"><p>注册后我们会给您提供更有效的反馈意见。</p><p><a href="/register" class="btn zhuce btn-large btn-info">那就注册一下</a></p></div>');
             })
             

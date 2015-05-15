@@ -74,7 +74,7 @@ exports.index = function(req, res){
                         //发送邮件 通知邀请码已被使用
                         var mailOptions = {
                             from: 'idacker@163.com', 
-                            to: 'admin@highsea90.com', 
+                            to: 'wangz@idacker.com', 
                             subject: '[金控项目]邀请码：'+inviteCode+'已被使用！', 
                             text: '[金控项目]邀请码：'+inviteCode+'已被使用！', // plaintext body
                             html: '<h2>［金控项目］管理员：</h2><p>您设置的邀请码'+inviteCode+'已被使用！请记得检查，添加。'+'</p><h5>'+config.productInfo.by+'</h5>' // html body
