@@ -208,7 +208,7 @@ define(function(require, exports, module) {
 		for (var i = 0; i < elm.length; i++) {
 			var elmid = elm.eq(i).data('id');
 			var elmname = elm.eq(i).data('cname');
-			var elmval = $('[data-id="'+elmid+'"]').children('form').find('ul').data('interest');
+			var elmval = $('[data-id="'+elmid+'"]').children('li').find('ul').data('interest');
 			if (elmval==val) {
 				doc.push(elmname);
 			};

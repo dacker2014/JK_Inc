@@ -28,11 +28,12 @@
 					<div class="card" data-next="<%=(i+1)%>">
 						<div class="thumbnail" data-pg="<%=i%>" data-id="<%=d[i]._id%>" data-cname="<%=d[i].name%>"> 
 
-							<ul id="main">
+							<ul class="main">
 								<li><i>(<%=(i+1)%>/<%=com_length%>) </i> <b><%=d[i].name%></b></li>
 								<li>
 									<h4>公司介绍 <i>▼</i> </h4>
-									<p class="none"> <%=d[i].content%></p>
+									<p> <%=d[i].content%></p>
+
 								</li>
 								<li>
 									<h4>运营情况 <i>▼</i></h4> 
@@ -49,7 +50,7 @@
 
                                 <li>
                                 	<h4>简评 <i>▼</i></h4> 
-                                	<p><%=d[i].comment%></p>
+                                	<p class="none"><%=d[i].comment%></p>
                                 </li>
 							</ul>
 							<form class="interest-val">
@@ -122,6 +123,11 @@ window.onload = function(){
     	$('#companyList').css({
     		width: 320*(<%=comlist.length%>+2)+'px',
     	});
+    	var renderHeight = document.documentElement.clientHeight;
+		$('.card').css({
+			height: renderHeight-15+'px',
+		});
+		//alert(renderHeight);
 
     	//优雅降级
     	if(!Modernizr.touch) {
@@ -201,9 +207,19 @@ window.onload = function(){
 
 
 		//$('title').text($('.pro-name').data('appname'));
-		$('.thumbnail').on('touchstart', 'h4', function(e){
-			$(this).siblings('p').show();
-			$(this).closest('li').siblings('li').children('p').hide();
+		$('.thumbnail').on('touchstart', 'li', function(e){
+
+			if ($(this).children('p').hasClass('none')) {
+				$(this).children('p').removeClass('none');
+				$(this).siblings('li').children('p').addClass('none');
+			}else{
+				$(this).children('p').toggleClass('none');
+			}
+			
+				
+			
+			
+
 		});
 		//兴趣选择
 		$('.interest-val').on('touchstart', 'li', function(event) {
@@ -212,6 +228,8 @@ window.onload = function(){
 			$(this).children('b').addClass('style-type');
 			$(this).siblings('li').children('b').removeClass('style-type');
 		});
+		
+
 		//提交时筛选
 		$('body').on('click', '.oksubmit', function(event) {
 			event.preventDefault();
